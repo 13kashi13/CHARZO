@@ -302,7 +302,7 @@ export const MapBackground: React.FC = () => {
     };
   }, [apiKey]);
 
-  /* ── Animate vans — throttled to 15fps, saves main thread ── */
+  /* ── Animate vans — throttled to 12fps, saves main thread ── */
   useEffect(() => {
     if (!ready) return;
 
@@ -312,10 +312,19 @@ export const MapBackground: React.FC = () => {
       t: Math.random(),
     }));
 
-    // 15fps — vans move slowly anyway, imperceptible difference
+    let active = true;
+
+    // Pause animation when hero is not visible
+    const observer = new IntersectionObserver(
+      ([entry]) => { active = entry.isIntersecting; },
+      { threshold: 0 }
+    );
+    if (mapDivRef.current) observer.observe(mapDivRef.current);
+
     const tick = () => {
+      if (!active) return;
       state.forEach((s, i) => {
-        s.t += 0.006;
+        s.t += 0.005;
         if (s.t >= 1) {
           s.t = 0;
           s.seg = (s.seg + 1) % (s.route.length - 1);
@@ -328,14 +337,17 @@ export const MapBackground: React.FC = () => {
       });
     };
 
-    const interval = setInterval(tick, 66); // ~15fps
-    return () => clearInterval(interval);
+    const interval = setInterval(tick, 80); // ~12fps
+    return () => {
+      clearInterval(interval);
+      observer.disconnect();
+    };
   }, [ready]);
 
   return (
     <div className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden">
       {/* Actual Google Map */}
-      <div ref={mapDivRef} className="absolute inset-0 w-full h-full" />
+      <div ref={mapDivRef} className="absolute inset-0 w-full h-full" style={{ transform: 'translateZ(0)' }} />
 
       {/* Radar pulse canvas overlay */}
       {ready && <RadarOverlay />}
@@ -379,12 +391,12 @@ const RadarOverlay: React.FC = () => {
 
     let frame = 0;
     let lastTime = 0;
-    const RADAR_FPS = 30;
+    const RADAR_FPS = 20;
     const RADAR_MS = 1000 / RADAR_FPS;
 
     const draw = (now: number) => {
       rafRef.current = requestAnimationFrame(draw);
-      if (now - lastTime < RADAR_MS) return; // throttle to 30fps
+      if (now - lastTime < RADAR_MS) return; // throttle to 20fps
       lastTime = now;
       frame++;
       const W = canvas.width;
@@ -396,11 +408,11 @@ const RadarOverlay: React.FC = () => {
         const cy = o.y * H;
         const t  = (frame * 0.006 + o.phase) % (Math.PI * 2);
 
-        for (let ring = 0; ring < 4; ring++) {
-          const rt       = (t + ring * 0.7) % (Math.PI * 2);
+        for (let ring = 0; ring < 3; ring++) {
+          const rt       = (t + ring * 0.9) % (Math.PI * 2);
           const progress = rt / (Math.PI * 2);
-          const radius   = progress * 70;
-          const opacity  = (1 - progress) * 0.3;
+          const radius   = progress * 60;
+          const opacity  = (1 - progress) * 0.22;
           if (opacity <= 0) continue;
 
           ctx.beginPath();
@@ -412,15 +424,10 @@ const RadarOverlay: React.FC = () => {
 
         /* Center dot */
         ctx.beginPath();
-        ctx.arc(cx, cy, 3, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(0,229,160,0.5)';
-        ctx.shadowColor = '#00e5a0';
-        ctx.shadowBlur  = 6;
+        ctx.arc(cx, cy, 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(0,229,160,0.4)';
         ctx.fill();
-        ctx.shadowBlur = 0;
       });
-
-      rafRef.current = requestAnimationFrame(draw);
     };
 
     rafRef.current = requestAnimationFrame(draw);
@@ -434,6 +441,7 @@ const RadarOverlay: React.FC = () => {
     <canvas
       ref={canvasRef}
       className="absolute inset-0 w-full h-full pointer-events-none"
+      style={{ willChange: 'auto' }}
     />
   );
 };

@@ -58,6 +58,7 @@ body {
   display: flex;
   width: max-content;
   animation: ticker 22s linear infinite;
+  will-change: transform;
 }
 .ticker-track:hover { animation-play-state: paused; }
 
@@ -98,6 +99,7 @@ body {
 }
 .ring-pulse {
   animation: ring-pulse 2s ease-out infinite;
+  will-change: transform, opacity;
 }
 
 /* ── Number counter shimmer ── */
@@ -351,6 +353,17 @@ body {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
+}
+
+/* ── GPU layer promotion for animated elements ── */
+.shapegrid-canvas {
+  will-change: auto;
+  contain: strict;
+}
+
+/* ── Section paint containment ── */
+.section-contained {
+  contain: layout style;
 }
 
 /* ── Dot grid scroll animation ── */

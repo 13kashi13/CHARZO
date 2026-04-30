@@ -2,8 +2,8 @@ import { useRef, useEffect, useCallback, useState } from 'react';
 import { gsap } from 'gsap';
 import './MagicBento.css';
 
-const DEFAULT_PARTICLE_COUNT = 10;
-const DEFAULT_SPOTLIGHT_RADIUS = 300;
+const DEFAULT_PARTICLE_COUNT = 6;
+const DEFAULT_SPOTLIGHT_RADIUS = 280;
 const DEFAULT_GLOW_COLOR = '0, 229, 160';
 const MOBILE_BREAKPOINT = 768;
 
