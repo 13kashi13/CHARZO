@@ -27,10 +27,7 @@ export const About: React.FC = () => {
               </p>
             </div>
             <div className="mt-6 pt-6 border-t border-white/[0.05]">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-white/20 mb-1">Address</p>
-              <p className="text-white font-bold text-sm">B-13A, 1st Floor, Block B</p>
-              <p className="text-white/50 text-sm">Sector 132, Noida, UP 201304</p>
-              <p className="text-[#00e5a0] text-sm mt-1">info@charzo.in</p>
+              <p className="text-[#00e5a0] text-sm">info@charzo.in</p>
               <p className="text-white/50 text-sm">+91 92119 68184</p>
             </div>
           </div>
