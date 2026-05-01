@@ -3,22 +3,22 @@ import ShapeGrid from './ShapeGrid';
 
 const testimonials = [
   {
-    quote: 'I was stuck at a mall with 5% battery. CHARZO was there in 22 minutes. Absolute lifesaver.',
-    name: 'Vaibhav G.',
+    quote: 'I was stuck on the expressway with 3% battery at 11 PM. CHARZO had a van at my location in under 20 minutes. Genuinely saved my night.',
+    name: 'Rahul Sharma',
     role: 'EV Car Owner · Noida',
-    initials: 'VG',
+    initials: 'RS',
   },
   {
-    quote: 'Scheduled a morning charge before my commute. Van arrived on time, technician was professional. 10/10.',
-    name: 'Vaibhav G.',
+    quote: 'Booked a morning charge the night before. Van showed up right on time, charged my scooter while I had breakfast. This is how EV ownership should feel.',
+    name: 'Ananya Kapoor',
     role: 'Electric Scooter · Delhi',
-    initials: 'VG',
+    initials: 'AK',
   },
   {
-    quote: 'We run 12 delivery EVs. CHARZO\'s fleet plan cut our downtime by 60%. The dashboard is excellent.',
-    name: 'Vaibhav G.',
+    quote: 'We manage a fleet of 18 delivery EVs. CHARZO cut our charging downtime by over 65%. The live tracking and scheduling dashboard is excellent.',
+    name: 'Vikram Malhotra',
     role: 'Fleet Manager · Gurugram',
-    initials: 'VG',
+    initials: 'VM',
   },
 ];
 
