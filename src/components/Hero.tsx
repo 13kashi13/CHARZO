@@ -229,7 +229,7 @@ export const Hero: React.FC = () => {
                 <span className="accent">We Didn't.</span>
               </h1>
 
-              <p className="text-[1.05rem] text-white/40 leading-relaxed mb-10 max-w-md font-light">
+              <p className="text-[1.05rem] text-white/75 leading-relaxed mb-10 max-w-md font-light">
                 CHARZO dispatches a mobile charging van to your exact location. No stations. No detours. Just power, wherever you are in Delhi NCR.
               </p>
 
@@ -282,7 +282,7 @@ export const Hero: React.FC = () => {
       <div className="relative z-10 border-t border-white/5 bg-white/[0.02] py-3 overflow-hidden">
         <div className="ticker-track">
           {[...tickerItems, ...tickerItems].map((item, i) => (
-            <span key={i} className="inline-flex items-center gap-6 text-[11px] font-semibold text-white/30 uppercase tracking-[0.15em] px-6 whitespace-nowrap">
+            <span key={i} className="inline-flex items-center gap-6 text-[11px] font-semibold text-white/60 uppercase tracking-[0.15em] px-6 whitespace-nowrap">
               <svg width="8" height="8" viewBox="0 0 22 22" fill="none" className="shrink-0 opacity-40">
                 <path d="M13 2L4 13h7l-2 7 9-11h-7l2-7z" fill="#00e5a0"/>
               </svg>
