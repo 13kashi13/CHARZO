@@ -16,14 +16,20 @@ export const Footer: React.FC = () => {
           {/* Brand */}
           <div>
             <div className="flex items-center gap-2.5 mb-4">
-              <svg width="20" height="20" viewBox="0 0 22 22" fill="none">
-                <path d="M13 2L4 13h7l-2 7 9-11h-7l2-7z" fill="#00e5a0"/>
-              </svg>
-              <span className="text-lg font-black tracking-[-0.04em] text-white">CHARZO</span>
+              <div className="w-8 h-8 rounded-xl bg-[#00e5a0]/10 border border-[#00e5a0]/25 flex items-center justify-center">
+                <svg width="14" height="14" viewBox="0 0 22 22" fill="none">
+                  <path d="M13 2L4 13h7l-2 7 9-11h-7l2-7z" fill="#00e5a0"/>
+                </svg>
+              </div>
+              <span className="text-xl font-black tracking-[-0.04em] text-white">CHARZO</span>
             </div>
-            <p className="text-sm text-white/25 leading-relaxed max-w-xs">
+            <p className="text-sm text-white/25 leading-relaxed max-w-xs mb-5">
               Mobile EV charging for India. We come to you, anytime, anywhere in Delhi NCR.
             </p>
+            <div className="flex items-center gap-2 bg-[#00e5a0]/[0.06] border border-[#00e5a0]/15 rounded-full px-3 py-1.5 w-fit">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00e5a0] animate-pulse"/>
+              <span className="text-[10px] font-bold text-[#00e5a0] uppercase tracking-widest">Live · Delhi NCR</span>
+            </div>
           </div>
 
           {/* Links */}
