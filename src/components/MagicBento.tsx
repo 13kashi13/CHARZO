@@ -1,5 +1,4 @@
 import { useRef, useEffect, useCallback, useState } from 'react';
-import { gsap } from 'gsap';
 import './MagicBento.css';
 
 const DEFAULT_PARTICLE_COUNT = 6;
@@ -126,15 +125,11 @@ export interface BentoCard { icon: React.ReactNode; label: string; location: str
 
 interface MagicBentoProps { cards: BentoCard[]; textAutoHide?: boolean; enableStars?: boolean; enableSpotlight?: boolean; enableBorderGlow?: boolean; disableAnimations?: boolean; spotlightRadius?: number; particleCount?: number; enableTilt?: boolean; glowColor?: string; clickEffect?: boolean; enableMagnetism?: boolean; }
 
-const MagicBento: React.FC<MagicBentoProps> = ({ cards, textAutoHide=true, enableStars=true, enableSpotlight=true, enableBorderGlow=true, disableAnimations=false, spotlightRadius=DEFAULT_SPOTLIGHT_RADIUS, particleCount=DEFAULT_PARTICLE_COUNT, enableTilt=true, glowColor=DEFAULT_GLOW_COLOR, clickEffect=true, enableMagnetism=false }) => {
-  const gridRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => { const c = () => setIsMobile(window.innerWidth <= MOBILE_BREAKPOINT); c(); window.addEventListener('resize', c); return () => window.removeEventListener('resize', c); }, []);
-  const dis = disableAnimations || isMobile;
+const MagicBento: React.FC<MagicBentoProps> = ({ cards, textAutoHide=true, enableBorderGlow=true, glowColor=DEFAULT_GLOW_COLOR }) => {
   const cls = `magic-bento-card ${textAutoHide?'magic-bento-card--text-autohide':''} ${enableBorderGlow?'magic-bento-card--border-glow':''}`;
   const sty: React.CSSProperties = { backgroundColor: '#0d0d0d', ['--glow-color' as string]: glowColor };
   const content = (card: BentoCard) => (<><div className="magic-bento-card__header"><div className="magic-bento-card__icon">{card.icon}</div><span className="magic-bento-card__label">{card.label}</span></div><div className="magic-bento-card__content"><p className="magic-bento-card__location">{card.location}</p><h2 className="magic-bento-card__title">{card.title}</h2><p className="magic-bento-card__description">{card.description}</p></div></>);
-  return (<>{enableSpotlight && <GlobalSpotlight gridRef={gridRef as React.RefObject<HTMLDivElement>} disableAnimations={dis} enabled={enableSpotlight} spotlightRadius={spotlightRadius} glowColor={glowColor} />}<div className="card-grid bento-section" ref={gridRef}>{cards.map((card, i) => enableStars ? (<ParticleCard key={i} className={cls} style={sty} disableAnimations={dis} particleCount={particleCount} glowColor={glowColor} enableTilt={enableTilt} clickEffect={clickEffect} enableMagnetism={enableMagnetism}>{content(card)}</ParticleCard>) : (<div key={i} className={cls} style={sty}>{content(card)}</div>))}</div></>);
+  return (<div className="card-grid bento-section">{cards.map((card, i) => (<div key={i} className={cls} style={sty}>{content(card)}</div>))}</div>);
 };
 
 export default MagicBento;

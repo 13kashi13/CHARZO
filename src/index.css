@@ -198,32 +198,29 @@ body {
   width: 100%;
   padding-top: 56px;
   border: 2px solid rgba(0,229,160,0.25);
-  transform-style: preserve-3d;
   background:
     linear-gradient(135deg, transparent 18.75%, rgba(0,229,160,0.06) 0 31.25%, transparent 0),
     repeating-linear-gradient(45deg, rgba(0,229,160,0.04) -6.25% 6.25%, rgba(255,255,255,0.015) 0 18.75%);
   background-size: 60px 60px;
   background-color: #080808;
   box-shadow: 4px 4px 0px #000000, rgba(0,0,0,0.5) 0px 20px 30px -10px;
-  transition: all 0.5s ease-in-out;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
   border-radius: 4px;
   cursor: default;
   overflow: visible;
 }
 
 .card-3d:hover {
-  background-position: -100px 100px, -100px 100px;
-  transform: rotate3d(0.5, 1, 0, 25deg);
-  box-shadow: 10px 10px 0 #000000, 15px 15px 20px rgba(0,229,160,0.12), rgba(0,0,0,0.6) 0px 20px 30px -10px;
+  transform: translateY(-4px);
+  box-shadow: 6px 6px 0 #000000, rgba(0,229,160,0.1) 0px 20px 30px -10px;
   border-color: rgba(0,229,160,0.5);
 }
 
 .card-3d-content {
   background: rgba(0, 35, 22, 0.95);
   border-top: 2px solid rgba(0,229,160,0.3);
-  transition: all 0.5s ease-in-out;
+  transition: all 0.3s ease;
   padding: 24px 22px 22px 22px;
-  transform-style: preserve-3d;
 }
 
 .card-3d-icon {
@@ -236,10 +233,7 @@ body {
   background: rgba(0,229,160,0.08);
   border: 1px solid rgba(0,229,160,0.2);
   margin-bottom: 14px;
-  transform: translate3d(0, 0, 30px);
-  transition: all 0.5s ease-in-out;
 }
-.card-3d:hover .card-3d-icon { transform: translate3d(0, 0, 50px); }
 
 .card-3d-location {
   font-size: 9px;
@@ -248,8 +242,6 @@ body {
   text-transform: uppercase;
   color: rgba(0,229,160,0.5);
   margin: 0 0 6px 0;
-  transform: translate3d(0, 0, 20px);
-  transition: all 0.5s ease-in-out;
 }
 
 .card-3d-title {
@@ -259,10 +251,7 @@ body {
   font-weight: 900;
   line-height: 1.25;
   margin: 0 0 10px 0;
-  transform: translate3d(0, 0, 50px);
-  transition: all 0.5s ease-in-out;
 }
-.card-3d:hover .card-3d-title { transform: translate3d(0, 0, 65px); }
 
 .card-3d-body {
   font-size: 12px;
@@ -270,11 +259,8 @@ body {
   color: rgba(180,220,205,0.6);
   line-height: 1.65;
   margin: 0 0 16px 0;
-  transform: translate3d(0, 0, 30px);
-  transition: all 0.5s ease-in-out;
 }
 .card-3d:hover .card-3d-body {
-  transform: translate3d(0, 0, 50px);
   color: rgba(180,220,205,0.8);
 }
 
@@ -285,8 +271,6 @@ body {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  transform: translate3d(0, 0, 25px);
-  transition: all 0.5s ease-in-out;
 }
 .card-3d-features li {
   display: flex;
@@ -296,7 +280,6 @@ body {
   font-weight: 600;
   color: rgba(180,220,205,0.55);
 }
-.card-3d:hover .card-3d-features { transform: translate3d(0, 0, 45px); }
 
 .card-3d-cta {
   cursor: pointer;
@@ -310,15 +293,13 @@ body {
   border: 1px solid rgba(0,229,160,0.3);
   padding: 7px 12px;
   text-decoration: none;
-  transform: translate3d(0, 0, 20px);
-  transition: all 0.5s ease-in-out;
+  transition: all 0.2s ease;
 }
 .card-3d-cta:hover {
   background: rgba(0,229,160,0.18);
   color: #fff;
   border-color: rgba(0,229,160,0.6);
 }
-.card-3d:hover .card-3d-cta { transform: translate3d(0, 0, 60px); }
 
 .card-3d-badge {
   position: absolute;
@@ -329,7 +310,6 @@ body {
   background: #080808;
   border: 1px solid rgba(0,229,160,0.4);
   padding: 6px;
-  transform: translate3d(0, 0, 80px);
   box-shadow: rgba(0,229,160,0.15) 0px 8px 20px -4px, 2px 2px 0 #000;
   display: flex;
   flex-direction: column;

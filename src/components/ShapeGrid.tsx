@@ -77,9 +77,9 @@ const ShapeGrid: React.FC<ShapeGridProps> = ({
       for (const [k, v] of cellOpacities.current) { const n = v + ((targets.get(k) || 0) - v) * 0.15; n < 0.005 ? cellOpacities.current.delete(k) : cellOpacities.current.set(k, n); }
     };
 
-    // Throttle to ~20fps
+    // Throttle to ~15fps
     let lastTime = 0;
-    const FPS_MS = 1000 / 20;
+    const FPS_MS = 1000 / 15;
 
     const animate = (now: number) => {
       rafRef.current = requestAnimationFrame(animate);
