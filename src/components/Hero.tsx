@@ -229,9 +229,11 @@ export const Hero: React.FC = () => {
                 <span className="accent">We Didn't.</span>
               </h1>
 
-              <p className="text-[1.05rem] text-white/90 leading-relaxed mb-10 max-w-md font-light">
-                CHARZO dispatches a mobile charging van to your exact location. No stations. No detours. Just power, wherever you are in Delhi NCR.
-              </p>
+              <div className="mb-10 max-w-md rounded-2xl bg-[#063525] border-2 border-[#00e5a0] p-5" style={{boxShadow:'4px 4px 0 #000'}}>
+                <p className="text-[1.05rem] text-white leading-relaxed font-medium">
+                  CHARZO dispatches a mobile charging van to your exact location. No stations. No detours. Just power, wherever you are in Delhi NCR.
+                </p>
+              </div>
 
               {/* CTAs */}
               <div className="flex flex-wrap gap-4 mb-14">
