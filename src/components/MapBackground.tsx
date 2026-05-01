@@ -12,31 +12,37 @@ import { loadGoogleMaps } from '../services/mapsLoader';
 ───────────────────────────────────────────── */
 
 const MAP_STYLE: google.maps.MapTypeStyle[] = [
-  // Clean light style
-  { elementType: 'geometry',                                           stylers: [{ color: '#f5f5f5' }] },
+  // Clean light base
+  { elementType: 'geometry',                                           stylers: [{ color: '#e8e8e8' }] },
   { elementType: 'labels.icon',                                        stylers: [{ visibility: 'off' }] },
-  { elementType: 'labels.text.fill',                                   stylers: [{ color: '#444444' }] },
+  { elementType: 'labels.text.fill',                                   stylers: [{ color: '#333333' }] },
   { elementType: 'labels.text.stroke',                                 stylers: [{ color: '#ffffff' }] },
-  { featureType: 'administrative.locality', elementType: 'labels.text.fill', stylers: [{ color: '#333333' }] },
+  { featureType: 'administrative.locality', elementType: 'labels.text.fill', stylers: [{ color: '#222222' }] },
   { featureType: 'administrative.neighborhood', elementType: 'labels', stylers: [{ visibility: 'off' }] },
-  { featureType: 'road',            elementType: 'geometry',           stylers: [{ color: '#ffffff' }] },
-  { featureType: 'road',            elementType: 'geometry.stroke',    stylers: [{ color: '#e0e0e0' }] },
-  { featureType: 'road',            elementType: 'labels.text.fill',   stylers: [{ color: '#666666' }] },
-  { featureType: 'road.highway',    elementType: 'geometry',           stylers: [{ color: '#dadada' }] },
-  { featureType: 'road.highway',    elementType: 'geometry.stroke',    stylers: [{ color: '#c0c0c0' }] },
-  { featureType: 'road.highway',    elementType: 'labels.text.fill',   stylers: [{ color: '#444444' }] },
-  { featureType: 'road.arterial',   elementType: 'geometry',           stylers: [{ color: '#eeeeee' }] },
-  { featureType: 'road.local',      elementType: 'geometry',           stylers: [{ color: '#f8f8f8' }] },
+  // Roads — dark and visible
+  { featureType: 'road',            elementType: 'geometry',           stylers: [{ color: '#b0b0b0' }] },
+  { featureType: 'road',            elementType: 'geometry.stroke',    stylers: [{ color: '#888888' }] },
+  { featureType: 'road',            elementType: 'labels.text.fill',   stylers: [{ color: '#333333' }] },
+  { featureType: 'road.highway',    elementType: 'geometry',           stylers: [{ color: '#707070' }] },
+  { featureType: 'road.highway',    elementType: 'geometry.stroke',    stylers: [{ color: '#505050' }] },
+  { featureType: 'road.highway',    elementType: 'labels.text.fill',   stylers: [{ color: '#222222' }] },
+  { featureType: 'road.arterial',   elementType: 'geometry',           stylers: [{ color: '#999999' }] },
+  { featureType: 'road.arterial',   elementType: 'geometry.stroke',    stylers: [{ color: '#777777' }] },
+  { featureType: 'road.local',      elementType: 'geometry',           stylers: [{ color: '#c8c8c8' }] },
+  { featureType: 'road.local',      elementType: 'geometry.stroke',    stylers: [{ color: '#aaaaaa' }] },
+  // Water
   { featureType: 'water',           elementType: 'geometry',           stylers: [{ color: '#c9e8f5' }] },
   { featureType: 'water',           elementType: 'labels.text.fill',   stylers: [{ color: '#5b8fa8' }] },
+  // POI / transit off
   { featureType: 'poi',             elementType: 'labels',             stylers: [{ visibility: 'off' }] },
   { featureType: 'poi.business',                                        stylers: [{ visibility: 'off' }] },
   { featureType: 'poi.park',        elementType: 'geometry',           stylers: [{ color: '#d4edda' }] },
   { featureType: 'poi.park',        elementType: 'labels',             stylers: [{ visibility: 'off' }] },
   { featureType: 'transit',                                             stylers: [{ visibility: 'off' }] },
+  // Landscape
   { featureType: 'landscape',       elementType: 'geometry',           stylers: [{ color: '#f0f0f0' }] },
-  { featureType: 'landscape.man_made', elementType: 'geometry',        stylers: [{ color: '#ebebeb' }] },
-  { featureType: 'administrative',  elementType: 'geometry.stroke',    stylers: [{ color: '#cccccc' }, { weight: 0.8 }] },
+  { featureType: 'landscape.man_made', elementType: 'geometry',        stylers: [{ color: '#e8e8e8' }] },
+  { featureType: 'administrative',  elementType: 'geometry.stroke',    stylers: [{ color: '#aaaaaa' }, { weight: 1 }] },
 ];
 
 /* Van routes — one-directional loops, no reversing */
