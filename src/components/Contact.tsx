@@ -12,8 +12,12 @@ export const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-24 bg-[#080808]">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="contact" className="py-24 bg-[#080808] relative overflow-hidden">
+      {/* CHARZO watermark */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
+        <span className="text-[clamp(80px,18vw,200px)] font-black text-white/[0.025] tracking-[-0.05em] leading-none">CHARZO</span>
+      </div>
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
 
           {/* Left */}
