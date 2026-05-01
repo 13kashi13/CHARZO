@@ -38,18 +38,19 @@ const cases = [
 
 export const UseCases: React.FC = () => {
   return (
-    <section id="why" className="py-24 bg-[#080808] relative overflow-hidden">
-      {/* CHARZO watermark */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
-        <span className="text-[clamp(80px,18vw,200px)] font-black text-white/[0.025] tracking-[-0.05em] leading-none">CHARZO</span>
-      </div>
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        {/* Header */}
-        <div className="mb-14">
-          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#00e5a0] mb-4">Real-World Use</p>
-          <h2 className="display-md text-white max-w-xl">
-            Charging that fits<br />your life.
-          </h2>
+    <section id="why" className="py-24 bg-[#080808] overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6">
+        {/* Header with watermark beside it */}
+        <div className="mb-14 flex items-center gap-6">
+          <div className="shrink-0">
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#00e5a0] mb-4">Real-World Use</p>
+            <h2 className="display-md text-white">
+              Charging that fits<br />your life.
+            </h2>
+          </div>
+          <span className="hidden md:block text-[clamp(60px,10vw,140px)] font-black text-white/[0.05] tracking-[-0.05em] leading-none select-none pointer-events-none whitespace-nowrap">
+            CHARZO
+          </span>
         </div>
 
         {/* Grid */}
