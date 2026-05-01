@@ -155,7 +155,7 @@ const BookingScreen: React.FC<{ onConfirm: () => void; onBack: () => void }> = (
   const [chargeType, setChargeType] = useState('');
 
   const vehicles = ['2 Wheeler EV', '3 Wheeler EV', '4 Wheeler EV'];
-  const chargeTypes = ['Fast Charge (DC)', 'Standard (AC)', 'Overnight Plan'];
+  const chargeTypes = ['Fast Charge (DC)', 'Overnight Plan'];
 
   return (
     <div style={{ padding: '0 0 8px', overflowY: 'auto', maxHeight: '500px' }}>
@@ -206,7 +206,7 @@ const BookingScreen: React.FC<{ onConfirm: () => void; onBack: () => void }> = (
               <div key={c} onClick={() => setChargeType(c)} style={{ padding: '11px 14px', borderRadius: '10px', background: chargeType === c ? 'rgba(0,229,160,0.1)' : 'rgba(255,255,255,0.03)', border: `1px solid ${chargeType === c ? 'rgba(0,229,160,0.4)' : 'rgba(255,255,255,0.06)'}`, cursor: 'pointer', transition: 'all 0.2s ease' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span style={{ fontSize: '12px', fontWeight: 600, color: chargeType === c ? '#00e5a0' : 'rgba(255,255,255,0.6)' }}>{c}</span>
-                  <span style={{ fontSize: '10px', fontWeight: 700, color: chargeType === c ? '#00e5a0' : 'rgba(255,255,255,0.2)' }}>{['₹4/min', '₹2.5/min', '₹199/night'][i]}</span>
+                  <span style={{ fontSize: '10px', fontWeight: 700, color: chargeType === c ? '#00e5a0' : 'rgba(255,255,255,0.2)' }}>{['₹22/kWh', '₹18/kWh'][i]}</span>
                 </div>
               </div>
             ))}
@@ -371,10 +371,10 @@ const TrackingScreen: React.FC<{ battery: number; onDone: () => void }> = ({ bat
 /* ─── HISTORY SCREEN ─── */
 const HistoryScreen: React.FC = () => {
   const sessions = [
-    { loc: 'Sector 62, Noida', date: 'Today, 9:14 AM', kwh: '18 kWh', cost: '₹312', duration: '52 min' },
-    { loc: 'Connaught Place, Delhi', date: 'Yesterday, 6:30 PM', kwh: '22 kWh', cost: '₹381', duration: '64 min' },
-    { loc: 'Cyber City, Gurugram', date: '28 Apr, 11:00 AM', kwh: '15 kWh', cost: '₹260', duration: '44 min' },
-    { loc: 'Noida Sector 18', date: '26 Apr, 8:45 AM', kwh: '20 kWh', cost: '₹347', duration: '58 min' },
+    { loc: 'Sector 62, Noida', date: 'Today, 9:14 AM', kwh: '18 kWh', cost: '₹396', duration: '52 min' },
+    { loc: 'Connaught Place, Delhi', date: 'Yesterday, 6:30 PM', kwh: '22 kWh', cost: '₹484', duration: '64 min' },
+    { loc: 'Cyber City, Gurugram', date: '28 Apr, 11:00 AM', kwh: '15 kWh', cost: '₹270', duration: '44 min' },
+    { loc: 'Noida Sector 18', date: '26 Apr, 8:45 AM', kwh: '20 kWh', cost: '₹360', duration: '58 min' },
   ];
 
   return (

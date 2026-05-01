@@ -4,17 +4,17 @@ import { GlowButton } from './GlowButton';
 const services = [
   {
     number: '01',
-    title: 'On-Demand Charging',
-    description: 'Open CHARZO, drop your pin, and a van is dispatched instantly. No scheduling, no waiting at a station. Just power, on your terms.',
-    features: ['Instant dispatch', 'Live van tracking', 'Pay per session', 'All EV types'],
-    tag: 'Most Popular',
+    title: 'Fast Charge',
+    description: 'Open CHARZO, drop your pin, and a van is dispatched instantly. DC fast charging gets you back on the road in under an hour.',
+    features: ['Instant dispatch', 'Live van tracking', '₹22 per kWh', 'All EV types'],
+    tag: '₹22 / kWh',
   },
   {
     number: '02',
-    title: 'Scheduled Charging',
-    description: 'Plan your charge in advance. Pick a time slot: morning, evening, overnight, and we\'ll be there. Perfect for daily commuters.',
-    features: ['Advance booking', 'Flexible slots', 'Reminder alerts', 'Recurring plans'],
-    tag: 'Plan Ahead',
+    title: 'Overnight Plan',
+    description: 'Schedule a charge for the night. Our van arrives at your location, charges your EV while you sleep, and you wake up to 100%.',
+    features: ['Advance booking', 'Flexible slots', '₹18 per kWh', 'Recurring plans'],
+    tag: '₹18 / kWh',
   },
   {
     number: '03',
