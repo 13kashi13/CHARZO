@@ -12,7 +12,7 @@ export const Contact: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="py-24 bg-[#050505]">
+    <section id="contact" className="py-24 bg-[#080808]">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-2 gap-16 items-start">
 

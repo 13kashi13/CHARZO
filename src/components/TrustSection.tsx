@@ -24,7 +24,7 @@ const testimonials = [
 
 export const TrustSection: React.FC = () => {
   return (
-    <section className="py-24 bg-[#050505]">
+    <section className="py-24 bg-[#080808]">
       <div className="max-w-7xl mx-auto px-6">
 
         {/* Stats row */}

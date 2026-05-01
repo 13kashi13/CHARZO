@@ -310,7 +310,7 @@ const TrackingScreen: React.FC<{ battery: number; onDone: () => void }> = ({ bat
         {/* User pin */}
         <div style={{ position: 'absolute', top: '22%', left: '62%', transform: 'translate(-50%, -50%)' }}>
           <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.4)' }}>
-            <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#0a0a0a' }}/>
+            <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#080808' }}/>
           </div>
         </div>
 
@@ -337,7 +337,7 @@ const TrackingScreen: React.FC<{ battery: number; onDone: () => void }> = ({ bat
           </div>
         </div>
         <div style={{ width: '100%', height: '6px', borderRadius: '3px', background: 'rgba(255,255,255,0.06)' }}>
-          <div style={{ height: '100%', borderRadius: '3px', background: 'linear-gradient(90deg, #00e5a0, #00ffb3)', width: `${battery}%`, transition: 'width 0.8s ease' }}/>
+          <div style={{ height: '100%', borderRadius: '3px', background: 'linear-gradient(90deg, #00e5a0, #00e5a0)', width: `${battery}%`, transition: 'width 0.8s ease' }}/>
         </div>
         <p style={{ fontSize: '9px', color: 'rgba(255,255,255,0.2)', margin: '6px 0 0' }}>Est. full charge in {Math.round((100 - battery) * 0.8)} min</p>
       </div>
@@ -428,7 +428,7 @@ const BottomNav: React.FC<{ active: Screen; onChange: (s: Screen) => void }> = (
   ];
 
   return (
-    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', padding: '8px 8px 4px', borderTop: '1px solid rgba(255,255,255,0.05)', background: '#0a0a0a' }}>
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-around', padding: '8px 8px 4px', borderTop: '1px solid rgba(255,255,255,0.05)', background: '#080808' }}>
       {tabs.map(tab => (
         <button key={tab.id} onClick={() => onChange(tab.id)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3px', background: 'none', border: 'none', cursor: 'pointer', padding: '4px 8px', borderRadius: '8px', transition: 'all 0.2s ease', color: active === tab.id ? '#00e5a0' : 'rgba(255,255,255,0.2)' }}>
           {tab.icon}
@@ -471,7 +471,7 @@ export const PhoneMockup: React.FC = () => {
           <DynamicIsland charging={screen === 'tracking' && battery > 78} />
 
           {/* Screen area */}
-          <div style={{ flex: 1, background: '#0a0a0a', paddingTop: '48px', display: 'flex', flexDirection: 'column' }}>
+          <div style={{ flex: 1, background: '#080808', paddingTop: '48px', display: 'flex', flexDirection: 'column' }}>
             <StatusBar time={time} />
 
             {/* Screen content with slide transition */}

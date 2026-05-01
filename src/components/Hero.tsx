@@ -24,7 +24,7 @@ const AppMockup: React.FC = () => (
         </div>
 
         {/* Screen content */}
-        <div className="pt-10 pb-4 px-0 bg-[#0a0a0a]">
+        <div className="pt-10 pb-4 px-0 bg-[#080808]">
 
           {/* Status bar */}
           <div className="flex items-center justify-between px-5 mb-3">
@@ -100,7 +100,7 @@ const AppMockup: React.FC = () => (
             {/* User pin */}
             <div className="absolute" style={{left:'62%', top:'22%'}}>
               <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center shadow-md">
-                <div className="w-2.5 h-2.5 rounded-full bg-[#0a0a0a]"/>
+                <div className="w-2.5 h-2.5 rounded-full bg-[#080808]"/>
               </div>
               <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-white rotate-45"/>
             </div>
@@ -130,7 +130,7 @@ const AppMockup: React.FC = () => (
               </div>
             </div>
             <div className="w-full h-1.5 rounded-full bg-white/[0.06]">
-              <div className="h-full rounded-full bg-gradient-to-r from-[#00e5a0] to-[#00ffb3]" style={{width:'78%'}}/>
+              <div className="h-full rounded-full bg-gradient-to-r from-[#00e5a0] to-[#00e5a0]" style={{width:'78%'}}/>
             </div>
           </div>
 

@@ -10,17 +10,17 @@ const MAP_STYLE: google.maps.MapTypeStyle[] = [
   { elementType: 'geometry',                                          stylers: [{ color: '#141414' }] },
   // Labels — white text, dark stroke for readability
   { elementType: 'labels.text.fill',                                  stylers: [{ color: '#cccccc' }] },
-  { elementType: 'labels.text.stroke',                                stylers: [{ color: '#0a0a0a' }] },
+  { elementType: 'labels.text.stroke',                                stylers: [{ color: '#080808' }] },
   { elementType: 'labels.icon',                                       stylers: [{ visibility: 'off' }] },
   // Roads — bright enough to see clearly
   { featureType: 'road',            elementType: 'geometry',          stylers: [{ color: '#2e2e2e' }] },
   { featureType: 'road',            elementType: 'geometry.stroke',   stylers: [{ color: '#1a1a1a' }] },
   { featureType: 'road',            elementType: 'labels.text.fill',  stylers: [{ color: '#aaaaaa' }] },
-  { featureType: 'road',            elementType: 'labels.text.stroke',stylers: [{ color: '#0a0a0a' }] },
+  { featureType: 'road',            elementType: 'labels.text.stroke',stylers: [{ color: '#080808' }] },
   { featureType: 'road.highway',    elementType: 'geometry',          stylers: [{ color: '#444444' }] },
   { featureType: 'road.highway',    elementType: 'geometry.stroke',   stylers: [{ color: '#222222' }] },
   { featureType: 'road.highway',    elementType: 'labels.text.fill',  stylers: [{ color: '#dddddd' }] },
-  { featureType: 'road.highway',    elementType: 'labels.text.stroke',stylers: [{ color: '#0a0a0a' }] },
+  { featureType: 'road.highway',    elementType: 'labels.text.stroke',stylers: [{ color: '#080808' }] },
   { featureType: 'road.arterial',   elementType: 'geometry',          stylers: [{ color: '#282828' }] },
   { featureType: 'road.local',      elementType: 'geometry',          stylers: [{ color: '#1e1e1e' }] },
   // Water — distinct dark blue
@@ -32,7 +32,7 @@ const MAP_STYLE: google.maps.MapTypeStyle[] = [
   // Admin
   { featureType: 'administrative',  elementType: 'geometry',          stylers: [{ color: '#1e1e1e' }] },
   { featureType: 'administrative.locality', elementType: 'labels.text.fill', stylers: [{ color: '#bbbbbb' }] },
-  { featureType: 'administrative.locality', elementType: 'labels.text.stroke', stylers: [{ color: '#0a0a0a' }] },
+  { featureType: 'administrative.locality', elementType: 'labels.text.stroke', stylers: [{ color: '#080808' }] },
   // Landscape
   { featureType: 'landscape',       elementType: 'geometry',          stylers: [{ color: '#181818' }] },
   { featureType: 'landscape.man_made', elementType: 'geometry',       stylers: [{ color: '#1c1c1c' }] },
@@ -45,13 +45,13 @@ const MAP_STYLE: google.maps.MapTypeStyle[] = [
 ───────────────────────────────────────────── */
 const USER_PIN_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="40" height="52" viewBox="0 0 40 52">
   <path d="M20 1C10.06 1 2 9.06 2 19c0 13.25 18 31 18 31s18-17.75 18-31C38 9.06 29.94 1 20 1z"
-        fill="#063525" stroke="#42c498" stroke-width="1.8"/>
+        fill="#063525" stroke="#00e5a0" stroke-width="1.8"/>
   <circle cx="20" cy="19" r="8" fill="#00e5a0" opacity="0.15"/>
   <path d="M22 12l-7 9h5l-2 7 8-10h-5l1-6z" fill="#00e5a0"/>
 </svg>`;
 
 const VAN_PIN_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 34 34">
-  <circle cx="17" cy="17" r="15" fill="#0a1a12" stroke="#42c498" stroke-width="1.5"/>
+  <circle cx="17" cy="17" r="15" fill="#080808" stroke="#00e5a0" stroke-width="1.5"/>
   <rect x="7" y="12" width="12" height="9" rx="1.5" fill="none" stroke="#00e5a0" stroke-width="1.4"/>
   <path d="M19 15h5l2 5H19" fill="none" stroke="#00e5a0" stroke-width="1.4"/>
   <circle cx="11" cy="22" r="2" fill="#00e5a0"/>
@@ -235,7 +235,7 @@ export const CharzoMap: React.FC = () => {
         styles: MAP_STYLE,
         disableDefaultUI: true,
         gestureHandling: 'cooperative',
-        backgroundColor: '#0a0a0a',
+        backgroundColor: '#080808',
         zoomControl: false,
         mapTypeControl: false,
         streetViewControl: false,
@@ -381,7 +381,7 @@ export const CharzoMap: React.FC = () => {
         title: `CHARZO Van · ~${eta} min`,
       });
       const iw = new google.maps.InfoWindow({
-        content: `<div style="background:#0d0d0d;border:1px solid #42c498;border-radius:10px;padding:10px 14px;font-family:Inter,sans-serif;min-width:130px">
+        content: `<div style="background:#0d0d0d;border:1px solid #00e5a0;border-radius:10px;padding:10px 14px;font-family:Inter,sans-serif;min-width:130px">
           <div style="color:#00e5a0;font-size:10px;font-weight:800;letter-spacing:.1em;margin-bottom:4px">CHARZO VAN</div>
           <div style="color:#fff;font-size:16px;font-weight:900">~${eta} min</div>
           <div style="color:#444;font-size:10px;margin-top:2px">Fast charging · All EVs</div>
@@ -435,7 +435,7 @@ export const CharzoMap: React.FC = () => {
   }, [handlePin, fireToast]);
 
   return (
-    <section id="map" className="bg-[#050505] py-0">
+    <section id="map" className="bg-[#080808] py-0">
       {/* ── Header bar ── */}
       <div className="max-w-7xl mx-auto px-6 pt-16 pb-8">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
@@ -602,7 +602,7 @@ export const CharzoMap: React.FC = () => {
 
         {/* Loading state — honeycomb loader */}
         {!ready && (
-          <div className="absolute inset-0 bg-[#0a0a0a] flex flex-col items-center justify-center gap-6 z-10">
+          <div className="absolute inset-0 bg-[#080808] flex flex-col items-center justify-center gap-6 z-10">
             <div className="honeycomb-loader">
               {[0,1,2,3,4,5,6].map(i => <div key={i} />)}
             </div>
@@ -676,7 +676,7 @@ export const CharzoMap: React.FC = () => {
         {toast && (
           <div
             key={toast}
-            className="flex items-center gap-3 bg-black/90 backdrop-blur-xl border border-[#42c498]/50 rounded-2xl px-5 py-3 shadow-2xl"
+            className="flex items-center gap-3 bg-black/90 backdrop-blur-xl border border-[#00e5a0]/50 rounded-2xl px-5 py-3 shadow-2xl"
             style={{
               animation: 'toastIn 0.3s cubic-bezier(0.22,1,0.36,1) forwards',
               boxShadow: '0 0 0 1px rgba(66,196,152,0.2), 0 20px 40px rgba(0,0,0,0.5)',

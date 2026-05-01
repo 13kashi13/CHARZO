@@ -8,7 +8,7 @@ body {
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: #0a0a0a;
+  background: #080808;
   color: #fff;
 }
 
@@ -125,7 +125,7 @@ body {
 
 /* ── Scrollbar ── */
 ::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #0a0a0a; }
+::-webkit-scrollbar-track { background: #080808; }
 ::-webkit-scrollbar-thumb { background: #1e1e1e; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #00e5a0; }
 
@@ -142,12 +142,12 @@ body {
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   background-color: #063525;
-  border: 2px solid #42c498;
+  border: 2px solid #00e5a0;
   border-radius: 12px;
   box-shadow: 4px 4px 1px #000000;
 }
 .brutalist-button:hover {
-  background-color: #1a5c46;
+  background-color: #063525;
   border-color: #030504;
   transform: translate(-4px, -4px) rotate(0.5deg);
   box-shadow: 8px 8px 0 #000000, 12px 12px 16px rgba(64, 164, 122, 0.2);
@@ -203,7 +203,7 @@ body {
     linear-gradient(135deg, transparent 18.75%, rgba(0,229,160,0.06) 0 31.25%, transparent 0),
     repeating-linear-gradient(45deg, rgba(0,229,160,0.04) -6.25% 6.25%, rgba(255,255,255,0.015) 0 18.75%);
   background-size: 60px 60px;
-  background-color: #0f1a14;
+  background-color: #080808;
   box-shadow: 4px 4px 0px #000000, rgba(0,0,0,0.5) 0px 20px 30px -10px;
   transition: all 0.5s ease-in-out;
   border-radius: 4px;
@@ -326,7 +326,7 @@ body {
   right: 14px;
   height: 54px;
   width: 54px;
-  background: #060f0a;
+  background: #080808;
   border: 1px solid rgba(0,229,160,0.4);
   padding: 6px;
   transform: translate3d(0, 0, 80px);

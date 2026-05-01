@@ -27,7 +27,7 @@ const services = [
 
 export const Services: React.FC = () => {
   return (
-    <section id="services" className="py-24 bg-[#050505]">
+    <section id="services" className="py-24 bg-[#080808]">
       <div className="max-w-7xl mx-auto px-6">
 
         {/* Header */}
