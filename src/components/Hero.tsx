@@ -279,12 +279,12 @@ export const Hero: React.FC = () => {
       </div>
 
       {/* ── Ticker strip ── */}
-      <div className="relative z-10 border-t border-white/5 bg-white/[0.02] py-3 overflow-hidden">
-        <div className="ticker-track">
+      <div className="relative z-10 overflow-hidden" style={{ background: '#00e5a0' }}>
+        <div className="ticker-track py-3">
           {[...tickerItems, ...tickerItems].map((item, i) => (
-            <span key={i} className="inline-flex items-center gap-6 text-[11px] font-bold text-white/80 uppercase tracking-[0.15em] px-6 whitespace-nowrap">
-              <svg width="8" height="8" viewBox="0 0 22 22" fill="none" className="shrink-0 opacity-40">
-                <path d="M13 2L4 13h7l-2 7 9-11h-7l2-7z" fill="#00e5a0"/>
+            <span key={i} className="inline-flex items-center gap-6 text-[11px] font-bold text-black uppercase tracking-[0.15em] px-6 whitespace-nowrap">
+              <svg width="8" height="8" viewBox="0 0 22 22" fill="none" className="shrink-0">
+                <path d="M13 2L4 13h7l-2 7 9-11h-7l2-7z" fill="black"/>
               </svg>
               {item}
             </span>
