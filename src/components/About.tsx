@@ -67,7 +67,7 @@ export const About: React.FC = () => {
           <div className="rounded-2xl border border-[#00e5a0]/20 overflow-hidden min-h-[280px]">
             <img
               src="/sarthak.jpg"
-              alt="Vaibhav Gawai — Founder, CHARZO"
+              alt="Sarthak Singh — Founder, CHARZO"
               className="w-full h-full object-cover object-top"
               style={{ minHeight: '280px' }}
             />
@@ -80,17 +80,17 @@ export const About: React.FC = () => {
 
               <div className="flex items-start gap-4 mb-6">
                 <div>
-                  <h3 className="text-2xl font-black text-white leading-tight">Vaibhav Gawai</h3>
+                  <h3 className="text-2xl font-black text-white leading-tight">Sarthak Singh</h3>
                   <p className="text-[#00e5a0] text-sm font-semibold mt-1">Founder, CHARZO</p>
                   <p className="text-white/30 text-xs mt-0.5">B.Tech · Delhi Technological University (DTU)</p>
                 </div>
               </div>
 
               <p className="text-white/45 text-sm leading-relaxed mb-4">
-                Vaibhav began his career at ZOID Technologies, a defence-sector R&D startup, where he was immersed in projects that demanded rigorous engineering and creative problem solving. This environment gave him an obsession with tackling real-world challenges head-on.
+                Sarthak began his career at ZOID Technologies, a defence-sector R&D startup, where he was immersed in projects that demanded rigorous engineering and creative problem solving. This environment gave him an obsession with tackling real-world challenges head-on.
               </p>
               <p className="text-white/45 text-sm leading-relaxed">
-                At CHARZO, Vaibhav channels this problem-solving mindset into building practical, accessible EV-charging solutions that move India closer to a cleaner, electrified future.
+                At CHARZO, Sarthak channels this problem-solving mindset into building practical, accessible EV-charging solutions that move India closer to a cleaner, electrified future.
               </p>
             </div>
 
