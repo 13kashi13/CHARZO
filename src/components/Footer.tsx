@@ -56,13 +56,13 @@ export const Footer: React.FC = () => {
                 href="https://www.instagram.com/charzo.ev?igsh=dmt2Nm00MG5jaTBo"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-lg border border-white/[0.06] bg-white/[0.02] flex items-center justify-center hover:border-pink-500/40 hover:bg-pink-500/10 transition-all group"
+                className="w-9 h-9 rounded-lg border border-pink-500/30 bg-pink-500/10 flex items-center justify-center hover:bg-pink-500/20 hover:border-pink-500/60 transition-all"
                 title="Instagram"
               >
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className="group-hover:stroke-pink-400 transition-colors">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f472b6" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
                   <circle cx="12" cy="12" r="4"/>
-                  <circle cx="17.5" cy="6.5" r="0.5" fill="rgba(255,255,255,0.3)" stroke="none" className="group-hover:fill-pink-400"/>
+                  <circle cx="17.5" cy="6.5" r="0.5" fill="#f472b6" stroke="none"/>
                 </svg>
               </a>
               {/* LinkedIn */}
@@ -70,10 +70,10 @@ export const Footer: React.FC = () => {
                 href="https://www.linkedin.com/company/charzo/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-9 h-9 rounded-lg border border-white/[0.06] bg-white/[0.02] flex items-center justify-center hover:border-[#0A66C2]/40 hover:bg-[#0A66C2]/10 transition-all group"
+                className="w-9 h-9 rounded-lg border border-[#0A66C2]/40 bg-[#0A66C2]/15 flex items-center justify-center hover:bg-[#0A66C2]/25 hover:border-[#0A66C2]/70 transition-all"
                 title="LinkedIn"
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="rgba(255,255,255,0.3)" className="group-hover:fill-[#0A66C2] transition-colors">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#0A66C2">
                   <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                 </svg>
               </a>
