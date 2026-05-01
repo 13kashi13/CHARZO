@@ -24,18 +24,20 @@ const steps = [
 
 export const HowItWorks: React.FC = () => {
   return (
-    <section id="how" className="py-24 bg-[#080808] relative overflow-hidden">
-      {/* CHARZO watermark — beside the heading */}
-      <div className="absolute top-0 right-0 flex items-center pointer-events-none select-none overflow-hidden h-48">
-        <span className="text-[clamp(80px,14vw,180px)] font-black text-white/[0.04] tracking-[-0.05em] leading-none translate-x-8">CHARZO</span>
-      </div>
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        {/* Header */}
-        <div className="mb-16">
-          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#00e5a0] mb-4">How It Works</p>
-          <h2 className="display-md text-white max-w-lg">
-            Three steps.<br />Full battery.
-          </h2>
+    <section id="how" className="py-24 bg-[#080808] overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6">
+
+        {/* Header with watermark beside it */}
+        <div className="mb-16 flex items-center gap-6">
+          <div className="shrink-0">
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#00e5a0] mb-4">How It Works</p>
+            <h2 className="display-md text-white">
+              Three steps.<br />Full battery.
+            </h2>
+          </div>
+          <span className="hidden md:block text-[clamp(60px,10vw,140px)] font-black text-white/[0.05] tracking-[-0.05em] leading-none select-none pointer-events-none whitespace-nowrap">
+            CHARZO
+          </span>
         </div>
 
         {/* Steps — horizontal timeline on desktop */}
@@ -45,7 +47,6 @@ export const HowItWorks: React.FC = () => {
 
           {steps.map((s, i) => (
             <div key={i} className="relative flex flex-col md:items-start p-6 md:p-8">
-              {/* Step number */}
               <div className="flex items-center gap-4 mb-6">
                 <div className="relative">
                   <div className="w-14 h-14 rounded-full border border-white/10 bg-white/[0.03] flex items-center justify-center">
@@ -56,7 +57,6 @@ export const HowItWorks: React.FC = () => {
                   )}
                 </div>
               </div>
-
               <h3 className="text-xl font-black text-white mb-3">{s.title}</h3>
               <p className="text-sm text-white/35 leading-relaxed mb-4">{s.body}</p>
               <span className="text-[11px] font-semibold text-[#00e5a0] uppercase tracking-widest">{s.detail}</span>
@@ -77,6 +77,7 @@ export const HowItWorks: React.FC = () => {
             Get Charge Now · Arrives in ~25 min
           </GlowButton>
         </div>
+
       </div>
     </section>
   );
