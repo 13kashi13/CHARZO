@@ -71,7 +71,7 @@ export const Contact: React.FC = () => {
                   <input
                     type="text"
                     required
-                    placeholder="Vaibhav Gawai"
+                    placeholder="Name"
                     value={form.name}
                     onChange={e => setForm({ ...form, name: e.target.value })}
                     className="w-full h-11 px-4 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#00e5a0]/50 transition-colors"
@@ -82,7 +82,7 @@ export const Contact: React.FC = () => {
                   <input
                     type="tel"
                     required
-                    placeholder="+91 98765 43210"
+                    placeholder="Phone Number"
                     value={form.phone}
                     onChange={e => setForm({ ...form, phone: e.target.value })}
                     className="w-full h-11 px-4 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#00e5a0]/50 transition-colors"
