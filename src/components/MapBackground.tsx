@@ -12,43 +12,31 @@ import { loadGoogleMaps } from '../services/mapsLoader';
 ───────────────────────────────────────────── */
 
 const MAP_STYLE: google.maps.MapTypeStyle[] = [
-  // Base — near black
-  { elementType: 'geometry',                                           stylers: [{ color: '#141414' }] },
-  // Labels
+  // Clean light style
+  { elementType: 'geometry',                                           stylers: [{ color: '#f5f5f5' }] },
   { elementType: 'labels.icon',                                        stylers: [{ visibility: 'off' }] },
-  { elementType: 'labels.text.fill',                                   stylers: [{ color: '#606060' }] },
-  { elementType: 'labels.text.stroke',                                 stylers: [{ color: '#080808' }] },
-  { featureType: 'administrative.locality', elementType: 'labels.text.fill', stylers: [{ color: '#888888' }] },
+  { elementType: 'labels.text.fill',                                   stylers: [{ color: '#444444' }] },
+  { elementType: 'labels.text.stroke',                                 stylers: [{ color: '#ffffff' }] },
+  { featureType: 'administrative.locality', elementType: 'labels.text.fill', stylers: [{ color: '#333333' }] },
   { featureType: 'administrative.neighborhood', elementType: 'labels', stylers: [{ visibility: 'off' }] },
-  // Roads — high contrast white-grey so they glow against dark base
-  { featureType: 'road',            elementType: 'geometry',           stylers: [{ color: '#4a4a4a' }] },
-  { featureType: 'road',            elementType: 'geometry.stroke',    stylers: [{ color: '#2a2a2a' }] },
-  { featureType: 'road',            elementType: 'labels.text.fill',   stylers: [{ color: '#707070' }] },
-  { featureType: 'road.highway',    elementType: 'geometry',           stylers: [{ color: '#686868' }] },
-  { featureType: 'road.highway',    elementType: 'geometry.stroke',    stylers: [{ color: '#383838' }] },
-  { featureType: 'road.highway',    elementType: 'labels.text.fill',   stylers: [{ color: '#909090' }] },
-  { featureType: 'road.arterial',   elementType: 'geometry',           stylers: [{ color: '#3e3e3e' }] },
-  { featureType: 'road.local',      elementType: 'geometry',           stylers: [{ color: '#303030' }] },
-  // Water — distinct dark blue
-  { featureType: 'water',           elementType: 'geometry',           stylers: [{ color: '#0a1628' }] },
-  { featureType: 'water',           elementType: 'labels.text.fill',   stylers: [{ color: '#1a3a5a' }] },
-  // Parks — very dark, no green
-  { featureType: 'poi.park',        elementType: 'geometry',           stylers: [{ color: '#181818' }] },
-  { featureType: 'poi.park',        elementType: 'labels',             stylers: [{ visibility: 'off' }] },
-  // All POI off
+  { featureType: 'road',            elementType: 'geometry',           stylers: [{ color: '#ffffff' }] },
+  { featureType: 'road',            elementType: 'geometry.stroke',    stylers: [{ color: '#e0e0e0' }] },
+  { featureType: 'road',            elementType: 'labels.text.fill',   stylers: [{ color: '#666666' }] },
+  { featureType: 'road.highway',    elementType: 'geometry',           stylers: [{ color: '#dadada' }] },
+  { featureType: 'road.highway',    elementType: 'geometry.stroke',    stylers: [{ color: '#c0c0c0' }] },
+  { featureType: 'road.highway',    elementType: 'labels.text.fill',   stylers: [{ color: '#444444' }] },
+  { featureType: 'road.arterial',   elementType: 'geometry',           stylers: [{ color: '#eeeeee' }] },
+  { featureType: 'road.local',      elementType: 'geometry',           stylers: [{ color: '#f8f8f8' }] },
+  { featureType: 'water',           elementType: 'geometry',           stylers: [{ color: '#c9e8f5' }] },
+  { featureType: 'water',           elementType: 'labels.text.fill',   stylers: [{ color: '#5b8fa8' }] },
   { featureType: 'poi',             elementType: 'labels',             stylers: [{ visibility: 'off' }] },
   { featureType: 'poi.business',                                        stylers: [{ visibility: 'off' }] },
-  { featureType: 'poi.medical',                                         stylers: [{ visibility: 'off' }] },
-  { featureType: 'poi.school',                                          stylers: [{ visibility: 'off' }] },
-  // Transit off
+  { featureType: 'poi.park',        elementType: 'geometry',           stylers: [{ color: '#d4edda' }] },
+  { featureType: 'poi.park',        elementType: 'labels',             stylers: [{ visibility: 'off' }] },
   { featureType: 'transit',                                             stylers: [{ visibility: 'off' }] },
-  // Landscape — slightly lighter than base so blocks are visible
-  { featureType: 'landscape',       elementType: 'geometry',           stylers: [{ color: '#1a1a1a' }] },
-  { featureType: 'landscape.man_made', elementType: 'geometry',        stylers: [{ color: '#202020' }] },
-  { featureType: 'landscape.natural',  elementType: 'geometry',        stylers: [{ color: '#161616' }] },
-  // Admin borders
-  { featureType: 'administrative',  elementType: 'geometry.stroke',    stylers: [{ color: '#3a3a3a' }, { weight: 0.8 }] },
-  { featureType: 'administrative.country', elementType: 'labels.text.fill', stylers: [{ color: '#666666' }] },
+  { featureType: 'landscape',       elementType: 'geometry',           stylers: [{ color: '#f0f0f0' }] },
+  { featureType: 'landscape.man_made', elementType: 'geometry',        stylers: [{ color: '#ebebeb' }] },
+  { featureType: 'administrative',  elementType: 'geometry.stroke',    stylers: [{ color: '#cccccc' }, { weight: 0.8 }] },
 ];
 
 /* Van routes — one-directional loops, no reversing */
@@ -345,7 +333,7 @@ export const MapBackground: React.FC = () => {
         disableDefaultUI: true,
         gestureHandling: 'none',
         keyboardShortcuts: false,
-        backgroundColor: '#1c1c1c',
+        backgroundColor: '#f5f5f5',
         clickableIcons: false,
         draggable: false,
         scrollwheel: false,
@@ -501,11 +489,11 @@ export const MapBackground: React.FC = () => {
       {/* Radar pulse canvas overlay */}
       {ready && <RadarOverlay />}
 
-      {/* Dark vignette — keeps text readable but map visible */}
+      {/* Dark vignette — fades light map into dark hero */}
       <div className="absolute inset-0" style={{
         background: `
-          linear-gradient(to right, rgba(8,8,8,0.92) 0%, rgba(8,8,8,0.6) 30%, rgba(8,8,8,0.1) 55%, rgba(8,8,8,0.05) 100%),
-          linear-gradient(to bottom, rgba(8,8,8,0.5) 0%, rgba(8,8,8,0.0) 12%, rgba(8,8,8,0.0) 88%, rgba(8,8,8,0.7) 100%)
+          linear-gradient(to right, rgba(8,8,8,0.95) 0%, rgba(8,8,8,0.75) 25%, rgba(8,8,8,0.2) 50%, rgba(8,8,8,0.05) 100%),
+          linear-gradient(to bottom, rgba(8,8,8,0.6) 0%, rgba(8,8,8,0.0) 15%, rgba(8,8,8,0.0) 85%, rgba(8,8,8,0.8) 100%)
         `,
       }} />
     </div>
