@@ -154,7 +154,7 @@ const BookingScreen: React.FC<{ onConfirm: () => void; onBack: () => void }> = (
   const [vehicle, setVehicle] = useState('');
   const [chargeType, setChargeType] = useState('');
 
-  const vehicles = ['Electric Car', 'Electric Scooter', 'Electric Bike', 'Electric SUV'];
+  const vehicles = ['2 Wheeler EV', '3 Wheeler EV', '4 Wheeler EV'];
   const chargeTypes = ['Fast Charge (DC)', 'Standard (AC)', 'Overnight Plan'];
 
   return (

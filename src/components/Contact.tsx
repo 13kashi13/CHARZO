@@ -96,10 +96,9 @@ export const Contact: React.FC = () => {
                     className="w-full h-11 px-4 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:outline-none focus:border-[#00e5a0]/50 transition-colors"
                   >
                     <option value="" className="bg-[#111]">Select vehicle type</option>
-                    <option className="bg-[#111]">Electric Scooter / Bike</option>
-                    <option className="bg-[#111]">Electric Car (Sedan)</option>
-                    <option className="bg-[#111]">Electric SUV</option>
-                    <option className="bg-[#111]">Fleet / Multiple Vehicles</option>
+                    <option className="bg-[#111]">2 Wheeler EV</option>
+                    <option className="bg-[#111]">3 Wheeler EV</option>
+                    <option className="bg-[#111]">4 Wheeler EV</option>
                   </select>
                 </div>
                 <div>
