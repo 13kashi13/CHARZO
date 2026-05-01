@@ -439,32 +439,32 @@ export const MapBackground: React.FC = () => {
 
         // Outer circle background
         ctx.beginPath();
-        ctx.arc(0, 0, 11, 0, Math.PI * 2);
+        ctx.arc(0, 0, 16, 0, Math.PI * 2);
         ctx.fillStyle = '#063525';
         ctx.fill();
         ctx.strokeStyle = '#00e5a0';
-        ctx.lineWidth = 1.5;
+        ctx.lineWidth = 2;
         ctx.stroke();
 
         // Van body (cab)
         ctx.strokeStyle = '#00e5a0';
-        ctx.lineWidth = 1.1;
+        ctx.lineWidth = 1.5;
         ctx.beginPath();
-        ctx.roundRect(-6, -3.5, 7, 5.5, 1);
+        ctx.roundRect(-9, -5, 10, 8, 1.5);
         ctx.stroke();
 
         // Van cargo/front
         ctx.beginPath();
-        ctx.moveTo(1, -1.5);
-        ctx.lineTo(4.5, -1.5);
-        ctx.lineTo(5.5, 1);
-        ctx.lineTo(1, 1);
+        ctx.moveTo(1, -2.5);
+        ctx.lineTo(6.5, -2.5);
+        ctx.lineTo(8, 1.5);
+        ctx.lineTo(1, 1.5);
         ctx.stroke();
 
         // Wheels
         ctx.fillStyle = '#00e5a0';
-        ctx.beginPath(); ctx.arc(-3.5, 2.5, 1.5, 0, Math.PI * 2); ctx.fill();
-        ctx.beginPath(); ctx.arc(3.5, 2.5, 1.5, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(-5, 4, 2.2, 0, Math.PI * 2); ctx.fill();
+        ctx.beginPath(); ctx.arc(5, 4, 2.2, 0, Math.PI * 2); ctx.fill();
 
         ctx.restore();
       });
