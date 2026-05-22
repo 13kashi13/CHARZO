@@ -227,7 +227,7 @@ export const Hero: React.FC = () => {
                 Building The<br />
                 Responsive<br />
                 <span style={{ whiteSpace: 'nowrap' }}>Energy Layer</span><br />
-                <span style={{ whiteSpace: 'nowrap' }}>Behind India's</span><br />
+                <span style={{ whiteSpace: 'nowrap' }}>Behind India</span><br />
                 <span className="accent" style={{ whiteSpace: 'nowrap' }}>EV Movement</span>
               </h1>
 
