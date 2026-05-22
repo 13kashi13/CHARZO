@@ -223,10 +223,11 @@ export const Hero: React.FC = () => {
               </div>
 
               {/* Headline */}
-              <h1 className="display text-white mb-6">
+              <h1 className="text-white mb-6" style={{ fontSize: 'clamp(1.8rem, 4.5vw, 3.8rem)', fontWeight: 900, lineHeight: 1.05, letterSpacing: '-0.03em' }}>
                 Building The<br />
-                Responsive Energy<br />
-                <span className="accent">Layer Behind<br />India's EV Movement</span>
+                Responsive<br />
+                <span style={{ whiteSpace: 'nowrap' }}>Energy Layer</span><br />
+                <span className="accent">Behind India's EV Movement</span>
               </h1>
 
               <div className="mb-10 max-w-md rounded-2xl bg-[#063525] border-2 border-[#00e5a0] p-5" style={{boxShadow:'4px 4px 0 #000'}}>
@@ -273,7 +274,7 @@ export const Hero: React.FC = () => {
             </div>
 
             {/* ── Right: App mockup ── */}
-            <div className="relative h-[620px] lg:h-[720px]">
+            <div className="relative h-[720px] lg:h-[780px] flex items-center justify-center">
               <PhoneMockup />
             </div>
           </div>
