@@ -226,7 +226,8 @@ export const Hero: React.FC = () => {
               <h1 className="text-white mb-6" style={{ fontSize: 'clamp(1.8rem, 4.5vw, 3.8rem)', fontWeight: 900, lineHeight: 1.05, letterSpacing: '-0.03em' }}>
                 Building The<br />
                 Responsive<br />
-                <span style={{ whiteSpace: 'nowrap' }}>Energy Layer Behind India's</span><br />
+                <span style={{ whiteSpace: 'nowrap' }}>Energy Layer</span><br />
+                <span style={{ whiteSpace: 'nowrap' }}>Behind India's</span><br />
                 <span className="accent" style={{ whiteSpace: 'nowrap' }}>EV Movement</span>
               </h1>
 
