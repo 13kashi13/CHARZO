@@ -224,9 +224,9 @@ export const Hero: React.FC = () => {
 
               {/* Headline */}
               <h1 className="display text-white mb-6">
-                Your EV<br />
-                Ran Out.<br />
-                <span className="accent">We Didn't.</span>
+                Building The<br />
+                Responsive Energy<br />
+                <span className="accent">Layer Behind<br />India's EV Movement</span>
               </h1>
 
               <div className="mb-10 max-w-md rounded-2xl bg-[#063525] border-2 border-[#00e5a0] p-5" style={{boxShadow:'4px 4px 0 #000'}}>
