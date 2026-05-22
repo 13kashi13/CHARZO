@@ -227,7 +227,7 @@ export const Hero: React.FC = () => {
                 Building The<br />
                 Responsive<br />
                 <span style={{ whiteSpace: 'nowrap' }}>Energy Layer</span><br />
-                <span className="accent">Behind India's EV Movement</span>
+                <span className="accent" style={{ whiteSpace: 'nowrap' }}>Behind India's EV Movement</span>
               </h1>
 
               <div className="mb-10 max-w-md rounded-2xl bg-[#063525] border-2 border-[#00e5a0] p-5" style={{boxShadow:'4px 4px 0 #000'}}>
