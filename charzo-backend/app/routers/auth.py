@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, Request
 from sqlmodel.ext.asyncio.session import AsyncSession
 
+from app.core.rate_limiter import limiter
 from app.database import get_db
 from app.dependencies import get_current_user
 from app.schemas.auth import LoginRequest, RefreshRequest, RegisterRequest, TokenResponse
@@ -12,14 +13,16 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 
 
 @router.post("/register", response_model=UserResponse, status_code=201)
-async def register(data: RegisterRequest, db: AsyncSession = Depends(get_db)):
+@limiter.limit("100/minute")
+async def register(request: Request, data: RegisterRequest, db: AsyncSession = Depends(get_db)):
     """Register a new customer account."""
     service = UserService(db)
     return await service.register_user(data)
 
 
 @router.post("/login", response_model=TokenResponse)
-async def login(data: LoginRequest, request: Request, db: AsyncSession = Depends(get_db)):
+@limiter.limit("100/minute")
+async def login(request: Request, data: LoginRequest, db: AsyncSession = Depends(get_db)):
     """Login with email and password. Returns access + refresh tokens."""
     ip = request.client.host if request.client else None
     service = AuthService(db)
@@ -27,14 +30,17 @@ async def login(data: LoginRequest, request: Request, db: AsyncSession = Depends
 
 
 @router.post("/refresh", response_model=TokenResponse)
-async def refresh(data: RefreshRequest, db: AsyncSession = Depends(get_db)):
+@limiter.limit("100/minute")
+async def refresh(request: Request, data: RefreshRequest, db: AsyncSession = Depends(get_db)):
     """Rotate refresh token. Old token is revoked, new pair issued."""
     service = AuthService(db)
     return await service.refresh(data.refresh_token)
 
 
 @router.post("/logout", status_code=200)
+@limiter.limit("300/minute")
 async def logout(
+    request: Request,
     data: RefreshRequest,
     db: AsyncSession = Depends(get_db),
     current_user=Depends(get_current_user),
