@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 /* ─── Types ─── */
 type Screen = 'home' | 'booking' | 'tracking' | 'history';
@@ -384,6 +384,172 @@ const BookingScreen: React.FC<{ onConfirm: () => void; onBack: () => void }> = (
   );
 };
 
+/* ─── Mini Google Map inside phone ─── */
+const TrackingMap: React.FC<{ vanLng: number; eta: number; arrived: boolean }> = ({ vanLng, eta, arrived }) => {
+  const mapRef = useRef<HTMLDivElement>(null);
+  const mapObj = useRef<google.maps.Map | null>(null);
+  const vanMarker = useRef<google.maps.Marker | null>(null);
+  const routePolyline = useRef<google.maps.Polyline | null>(null);
+  const fullRoutePath = useRef<google.maps.LatLng[]>([]);
+  const initialized = useRef(false);
+
+  const USER_POS  = { lat: 28.6280, lng: 77.2190 }; // Connaught Place
+  const VAN_START = { lat: 28.6200, lng: 77.1700 }; // Rajouri Garden
+
+  const progress = Math.min(vanLng, 1);
+  const vanPos = {
+    lat: VAN_START.lat + (USER_POS.lat - VAN_START.lat) * progress,
+    lng: VAN_START.lng + (USER_POS.lng - VAN_START.lng) * progress,
+  };
+
+  // Init map once Google is ready
+  useEffect(() => {
+    const tryInit = () => {
+      if (initialized.current || !mapRef.current) return;
+      if (!(window as any).google?.maps) return;
+      initialized.current = true;
+
+      const mapStyles: google.maps.MapTypeStyle[] = [
+        { elementType: 'geometry',                           stylers: [{ color: '#0a0a0a' }] },
+        { elementType: 'labels',                             stylers: [{ visibility: 'off' }] },
+        { featureType: 'road.local',       elementType: 'geometry',        stylers: [{ color: '#1c1c1c' }] },
+        { featureType: 'road.arterial',    elementType: 'geometry',        stylers: [{ color: '#2a2a2a' }] },
+        { featureType: 'road.arterial',    elementType: 'geometry.stroke', stylers: [{ color: '#111' }] },
+        { featureType: 'road.highway',     elementType: 'geometry',        stylers: [{ color: '#3a3a3a' }] },
+        { featureType: 'road.highway',     elementType: 'geometry.stroke', stylers: [{ color: '#222' }] },
+        { featureType: 'road.highway.controlled_access', elementType: 'geometry', stylers: [{ color: '#444' }] },
+        { featureType: 'water',            elementType: 'geometry',        stylers: [{ color: '#050505' }] },
+        { featureType: 'poi',                                               stylers: [{ visibility: 'off' }] },
+        { featureType: 'transit',                                           stylers: [{ visibility: 'off' }] },
+        { featureType: 'landscape',        elementType: 'geometry',        stylers: [{ color: '#0a0a0a' }] },
+        { featureType: 'landscape.man_made', elementType: 'geometry',      stylers: [{ color: '#0f0f0f' }] },
+        { featureType: 'administrative',   elementType: 'geometry',        stylers: [{ visibility: 'off' }] },
+        { featureType: 'poi.park',         elementType: 'geometry',        stylers: [{ color: '#080808' }] },
+      ];
+
+      const map = new google.maps.Map(mapRef.current!, {
+        center: { lat: 28.624, lng: 77.194 },
+        zoom: 12,
+        disableDefaultUI: true,
+        gestureHandling: 'none',
+        zoomControl: false,
+        styles: mapStyles,
+      });
+      mapObj.current = map;
+
+      // Van marker — smaller, cleaner
+      vanMarker.current = new google.maps.Marker({
+        position: VAN_START, map,
+        icon: {
+          url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="12" fill="#00e5a0" stroke="#fff" stroke-width="2"/><rect x="6" y="10" width="9" height="7" rx="1.5" fill="none" stroke="#000" stroke-width="1.4"/><path d="M15 12h4l1.5 4H15" fill="none" stroke="#000" stroke-width="1.4"/><circle cx="9" cy="18" r="1.8" fill="#000"/><circle cx="17.5" cy="18" r="1.8" fill="#000"/></svg>')}`,
+          scaledSize: new google.maps.Size(28, 28),
+          anchor: new google.maps.Point(14, 14),
+        },
+        zIndex: 20,
+      });
+
+      // User pin — smaller teardrop
+      new google.maps.Marker({
+        position: USER_POS, map,
+        icon: {
+          url: `data:image/svg+xml;charset=UTF-8,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="24" height="32" viewBox="0 0 24 32"><path d="M12 1C6.48 1 2 5.48 2 11c0 7.5 10 20 10 20s10-12.5 10-20C22 5.48 17.52 1 12 1z" fill="#00e5a0" stroke="#fff" stroke-width="1.5"/><circle cx="12" cy="11" r="4.5" fill="#fff"/><circle cx="12" cy="11" r="2.5" fill="#00e5a0"/></svg>')}`,
+          scaledSize: new google.maps.Size(24, 32),
+          anchor: new google.maps.Point(12, 32),
+        },
+        zIndex: 10,
+      });
+
+      // Try Directions API first — follows real roads
+      const directionsService = new google.maps.DirectionsService();
+      const directionsRenderer = new google.maps.DirectionsRenderer({
+        map,
+        suppressMarkers: true,
+        preserveViewport: true,
+        polylineOptions: {
+          strokeColor: '#00e5a0',
+          strokeWeight: 4,
+          strokeOpacity: 1,
+          zIndex: 99,
+        },
+      });
+
+      directionsService.route(
+        {
+          origin: new google.maps.LatLng(VAN_START.lat, VAN_START.lng),
+          destination: new google.maps.LatLng(USER_POS.lat, USER_POS.lng),
+          travelMode: google.maps.TravelMode.DRIVING,
+        },
+        (result, status) => {
+          if (status === google.maps.DirectionsStatus.OK && result) {
+            // Extract all points from the route
+            const path = result.routes[0].overview_path;
+            fullRoutePath.current = path;
+            routePolyline.current = new google.maps.Polyline({
+              path,
+              map,
+              strokeColor: '#00e5a0',
+              strokeWeight: 3,
+              strokeOpacity: 1,
+              zIndex: 99,
+            });
+          } else {
+            // Realistic fallback path through Delhi streets
+            const fallbackCoords = [
+              { lat: 28.6200, lng: 77.1700 },
+              { lat: 28.6215, lng: 77.1745 },
+              { lat: 28.6248, lng: 77.1810 },
+              { lat: 28.6272, lng: 77.1868 },
+              { lat: 28.6305, lng: 77.1920 },
+              { lat: 28.6318, lng: 77.1975 },
+              { lat: 28.6308, lng: 77.2040 },
+              { lat: 28.6295, lng: 77.2095 },
+              { lat: 28.6285, lng: 77.2145 },
+              { lat: 28.6280, lng: 77.2190 },
+            ];
+            fullRoutePath.current = fallbackCoords.map(c => new google.maps.LatLng(c.lat, c.lng));
+            routePolyline.current = new google.maps.Polyline({
+              path: fullRoutePath.current,
+              map,
+              strokeColor: '#00e5a0',
+              strokeWeight: 3,
+              strokeOpacity: 1,
+              zIndex: 99,
+            });
+          }
+        }
+      );
+    };
+
+    // Try immediately, then poll until Maps is loaded
+    tryInit();
+    const poll = setInterval(() => {
+      if (initialized.current) { clearInterval(poll); return; }
+      tryInit();
+    }, 300);
+    return () => clearInterval(poll);
+  }, []);
+
+  // Smoothly move van marker and trim route as progress updates
+  useEffect(() => {
+    if (vanMarker.current) {
+      vanMarker.current.setPosition(vanPos);
+    }
+    // Trim route — show only remaining path from van's current position onward
+    if (routePolyline.current && fullRoutePath.current.length > 0) {
+      const total = fullRoutePath.current.length;
+      const startIdx = Math.floor(progress * (total - 1));
+      const remaining = fullRoutePath.current.slice(startIdx);
+      routePolyline.current.setPath([vanPos, ...remaining]);
+    }
+  }, [vanLng]);
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+      <div ref={mapRef} style={{ width: '100%', height: '100%' }} />
+    </div>
+  );
+};
+
 /* ─── TRACKING SCREEN ─── */
 const TrackingScreen: React.FC<{ battery: number; onDone: () => void }> = ({ battery, onDone }) => {
   const [vanX, setVanX] = useState(18);
@@ -391,121 +557,120 @@ const TrackingScreen: React.FC<{ battery: number; onDone: () => void }> = ({ bat
 
   useEffect(() => {
     const t = setInterval(() => {
-      setVanX(x => { const next = x + 0.4; return next > 58 ? 58 : next; });
+      setVanX(x => { const next = x + 0.08; return next > 58 ? 58 : next; });
       setEta(e => e > 0 ? e - 1 : 0);
-    }, 600);
+    }, 2000);
     return () => clearInterval(t);
   }, []);
 
   const arrived = vanX >= 58;
 
   return (
-    <div style={{ padding: '0 0 8px', overflowY: 'auto', maxHeight: '520px' }}>
-      {/* Header */}
-      <div style={{ padding: '8px 16px 10px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div>
-          <p style={{ fontSize: '10px', color: 'rgba(255,255,255,0.3)', margin: 0 }}>Live Tracking</p>
-          <p style={{ fontSize: '14px', fontWeight: 900, color: '#fff', margin: 0 }}>Van on the way</p>
-        </div>
-        <div style={{
-          display: 'flex', alignItems: 'center', gap: '5px',
-          background: 'rgba(0,229,160,0.08)', border: '1px solid rgba(0,229,160,0.2)',
-          borderRadius: '20px', padding: '4px 10px',
-        }}>
-          <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#00e5a0', animation: 'di-ping 1.5s infinite' }} />
-          <span style={{ fontSize: '9px', fontWeight: 700, color: '#00e5a0' }}>LIVE</span>
-        </div>
-      </div>
+    /* Snapchat-style: map fills entire screen, UI overlays float on top */
+    <div style={{ position: 'relative', height: '520px', overflow: 'hidden', background: '#0a0a0a' }}>
 
-      {/* Map */}
-      <div style={{ position: 'relative', height: '170px', background: '#0d0d0d', overflow: 'hidden', margin: '0 0 10px' }}>
-        <svg width="100%" height="100%" style={{ position: 'absolute', inset: 0, opacity: 0.2 }}>
-          {[0,25,50,75,100,125,150,175].map(y => <line key={y} x1="0" y1={y} x2="320" y2={y} stroke="#1e1e1e" strokeWidth="1"/>)}
-          {[0,35,70,105,140,175,210,245,280,315].map(x => <line key={x} x1={x} y1="0" x2={x} y2="170" stroke="#1e1e1e" strokeWidth="1"/>)}
-          <line x1="0" y1="85" x2="320" y2="85" stroke="#1a1a1a" strokeWidth="10"/>
-          <line x1="0" y1="85" x2="320" y2="85" stroke="#222" strokeWidth="8"/>
-          {[10,50,90,130,170,210,250].map(x => <line key={x} x1={x} y1="85" x2={x+25} y2="85" stroke="#2a2a2a" strokeWidth="1.5" strokeDasharray="10 8"/>)}
-        </svg>
-        <svg width="100%" height="100%" style={{ position: 'absolute', inset: 0 }}>
-          <path d={`M${vanX}% 85 Q 40% 60 62% 40`} stroke="#00e5a0" strokeWidth="2" strokeDasharray="5 3" fill="none" opacity="0.5"/>
-        </svg>
-        {/* Animated van */}
-        <div style={{
-          position: 'absolute', top: '50%', left: `${vanX}%`,
-          transform: 'translate(-50%, -50%)', transition: 'left 0.6s linear', zIndex: 10,
-        }}>
-          <div style={{
-            width: '32px', height: '32px', borderRadius: '50%', background: '#00e5a0',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 0 14px rgba(0,229,160,0.6)',
-          }}>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="black" strokeWidth="2.5">
-              <rect x="1" y="8" width="15" height="10" rx="2"/>
-              <path d="M16 12h4l2 4H16"/>
-              <circle cx="5.5" cy="18.5" r="2.5"/>
-              <circle cx="18.5" cy="18.5" r="2.5"/>
-            </svg>
-          </div>
-          {!arrived && <div style={{ position: 'absolute', inset: 0, borderRadius: '50%', border: '2px solid #00e5a0', opacity: 0.4, animation: 'ring-pulse 2s ease-out infinite' }}/>}
-        </div>
-        {/* User pin */}
-        <div style={{ position: 'absolute', top: '22%', left: '62%', transform: 'translate(-50%, -50%)' }}>
-          <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px rgba(0,0,0,0.4)' }}>
-            <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#080808' }}/>
-          </div>
-        </div>
-        {/* ETA chip */}
-        <div style={{ position: 'absolute', top: '8px', right: '8px', background: 'rgba(13,13,13,0.9)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px', padding: '4px 8px' }}>
-          <p style={{ fontSize: '8px', color: 'rgba(255,255,255,0.35)', margin: 0 }}>ETA</p>
-          <p style={{ fontSize: '12px', fontWeight: 900, color: arrived ? '#00e5a0' : '#fff', margin: 0 }}>{arrived ? 'Here!' : `~${eta} min`}</p>
-        </div>
-      </div>
+      {/* ── Full-screen Google Map ── */}
+      <TrackingMap vanLng={vanX / 58} eta={eta} arrived={arrived} />
 
-      {/* Battery card */}
-      <div style={{ margin: '0 12px 10px', borderRadius: '14px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)', padding: '12px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
+      {/* ── Top overlay: header ── */}
+      <div style={{
+        position: 'absolute', top: 0, left: 0, right: 0, zIndex: 20,
+        padding: '10px 14px 8px',
+        background: 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 100%)',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div>
-            <p style={{ fontSize: '9px', color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.1em', margin: 0 }}>Battery</p>
-            <p style={{ fontSize: '22px', fontWeight: 900, color: '#fff', margin: 0, lineHeight: 1 }}>{battery}%</p>
+            <p style={{ fontSize: '9px', color: 'rgba(255,255,255,0.5)', margin: 0, letterSpacing: '0.08em', textTransform: 'uppercase' }}>Live Tracking</p>
+            <p style={{ fontSize: '15px', fontWeight: 900, color: '#fff', margin: 0, letterSpacing: '-0.02em' }}>Van on the way</p>
           </div>
-          <div style={{ textAlign: 'right' }}>
-            <p style={{ fontSize: '9px', color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.1em', margin: 0 }}>Status</p>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '5px', justifyContent: 'flex-end', marginTop: '2px' }}>
-              <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#00e5a0', boxShadow: '0 0 6px #00e5a0' }}/>
-              <span style={{ fontSize: '11px', fontWeight: 700, color: '#00e5a0' }}>{arrived ? 'Charging' : 'Waiting'}</span>
+          <div style={{
+            display: 'flex', alignItems: 'center', gap: '5px',
+            background: 'rgba(0,229,160,0.15)', border: '1px solid rgba(0,229,160,0.4)',
+            borderRadius: '20px', padding: '4px 10px', backdropFilter: 'blur(8px)',
+          }}>
+            <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#00e5a0', boxShadow: '0 0 6px #00e5a0' }} />
+            <span style={{ fontSize: '9px', fontWeight: 800, color: '#00e5a0', letterSpacing: '0.1em' }}>LIVE</span>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Bottom sheet overlay ── */}
+      <div style={{
+        position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 20,
+        background: 'rgba(10,10,10,0.92)',
+        backdropFilter: 'blur(20px)',
+        borderRadius: '20px 20px 0 0',
+        border: '1px solid rgba(255,255,255,0.08)',
+        padding: '8px 14px 12px',
+      }}>
+        {/* Drag handle */}
+        <div style={{ width: '32px', height: '3px', borderRadius: '2px', background: 'rgba(255,255,255,0.15)', margin: '0 auto 10px' }} />
+
+        {/* Van info row */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <div style={{
+              width: '32px', height: '32px', borderRadius: '10px',
+              background: 'rgba(0,229,160,0.1)', border: '1px solid rgba(0,229,160,0.2)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+            }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00e5a0" strokeWidth="2">
+                <rect x="1" y="8" width="15" height="10" rx="2"/><path d="M16 12h4l2 4H16"/>
+                <circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+              </svg>
+            </div>
+            <div>
+              <p style={{ fontSize: '12px', fontWeight: 800, color: '#fff', margin: 0 }}>CHARZO Van #CZ-04</p>
+              <p style={{ fontSize: '9px', color: 'rgba(255,255,255,0.35)', margin: 0 }}>Rajesh K. · ⭐ 4.9</p>
             </div>
           </div>
+          <button style={{
+            background: 'rgba(0,229,160,0.1)', border: '1px solid rgba(0,229,160,0.3)',
+            borderRadius: '8px', padding: '5px 12px', cursor: 'pointer',
+            fontSize: '10px', fontWeight: 700, color: '#00e5a0',
+          }}>Call</button>
         </div>
-        <div style={{ width: '100%', height: '6px', borderRadius: '3px', background: 'rgba(255,255,255,0.06)' }}>
-          <div style={{ height: '100%', borderRadius: '3px', background: 'linear-gradient(90deg, #00e5a0, #00c87a)', width: `${battery}%`, transition: 'width 0.8s ease' }}/>
-        </div>
-        <p style={{ fontSize: '9px', color: 'rgba(255,255,255,0.2)', margin: '6px 0 0' }}>Est. full charge in {Math.round((100 - battery) * 0.8)} min</p>
-      </div>
 
-      {/* Van info */}
-      <div style={{ margin: '0 12px 10px', borderRadius: '12px', background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.05)', padding: '10px 12px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <div style={{ width: '28px', height: '28px', borderRadius: '8px', background: 'rgba(0,229,160,0.08)', border: '1px solid rgba(0,229,160,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#00e5a0" strokeWidth="2">
-              <rect x="1" y="8" width="15" height="10" rx="2"/><path d="M16 12h4l2 4H16"/>
-              <circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
-            </svg>
+        {/* Stats row */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '6px', marginBottom: '10px' }}>
+          {[
+            { label: 'ETA', value: arrived ? 'Here!' : `~${eta} min`, accent: true },
+            { label: 'Battery', value: `${battery}%`, accent: false },
+            { label: 'Status', value: arrived ? 'Charging' : 'En route', accent: true },
+          ].map((s, i) => (
+            <div key={i} style={{
+              borderRadius: '10px',
+              background: 'rgba(255,255,255,0.04)',
+              border: '1px solid rgba(255,255,255,0.07)',
+              padding: '7px 8px', textAlign: 'center',
+            }}>
+              <p style={{ fontSize: '8px', color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.1em', margin: '0 0 2px' }}>{s.label}</p>
+              <p style={{ fontSize: '13px', fontWeight: 900, color: s.accent ? '#00e5a0' : '#fff', margin: 0 }}>{s.value}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Battery bar */}
+        <div style={{ marginBottom: arrived ? '8px' : '0' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+            <span style={{ fontSize: '8px', color: 'rgba(255,255,255,0.25)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Battery Level</span>
+            <span style={{ fontSize: '8px', color: 'rgba(255,255,255,0.25)' }}>Est. full in {Math.round((100 - battery) * 0.8)} min</span>
           </div>
-          <div>
-            <p style={{ fontSize: '11px', fontWeight: 700, color: '#fff', margin: 0 }}>CHARZO Van #CZ-04</p>
-            <p style={{ fontSize: '9px', color: 'rgba(255,255,255,0.3)', margin: 0 }}>Rajesh K. · ⭐ 4.9</p>
+          <div style={{ width: '100%', height: '4px', borderRadius: '2px', background: 'rgba(255,255,255,0.06)' }}>
+            <div style={{ height: '100%', borderRadius: '2px', background: 'linear-gradient(90deg, #00e5a0, #00c87a)', width: `${battery}%`, transition: 'width 0.8s ease' }}/>
           </div>
         </div>
-        <button style={{ background: 'rgba(0,229,160,0.08)', border: '1px solid rgba(0,229,160,0.2)', borderRadius: '8px', padding: '5px 10px', cursor: 'pointer', fontSize: '9px', fontWeight: 700, color: '#00e5a0' }}>Call</button>
-      </div>
 
-      {arrived && (
-        <div style={{ margin: '0 12px' }}>
-          <button onClick={onDone} style={{ width: '100%', height: '38px', borderRadius: '10px', background: '#00e5a0', border: 'none', cursor: 'pointer', fontSize: '11px', fontWeight: 900, color: '#000' }}>
+        {arrived && (
+          <button onClick={onDone} style={{
+            width: '100%', height: '36px', borderRadius: '10px',
+            background: '#00e5a0', border: 'none', cursor: 'pointer',
+            fontSize: '11px', fontWeight: 900, color: '#000', marginTop: '4px',
+          }}>
             Charging Complete ✓
           </button>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
