@@ -600,7 +600,7 @@ export const PhoneMockup: React.FC = () => {
   const handleDone = () => setScreen('history');
 
   return (
-    <div className="relative flex justify-center items-center h-full select-none">
+    <div className="relative flex justify-center items-center h-full select-none" style={{ overflow: 'visible' }}>
 
       {/* ── Ambient glow behind phone ── */}
       <div style={{
@@ -728,11 +728,13 @@ export const PhoneMockup: React.FC = () => {
       </div>
 
       {/* ── Floating stats ── */}
-      <div className="absolute top-6 -right-2 lg:-right-8 bg-[#0d0d0d] border border-white/[0.08] rounded-2xl px-5 py-3.5 shadow-xl">
+      <div style={{ position: 'absolute', top: '40px', right: '-160px', zIndex: 20 }}
+           className="bg-[#0d0d0d] border border-white/[0.08] rounded-2xl px-5 py-3.5 shadow-xl">
         <p className="text-[10px] text-white/25 font-semibold uppercase tracking-widest">Vans nearby</p>
         <p className="text-2xl font-black text-white">3 <span className="text-[#00e5a0] text-base font-bold">active</span></p>
       </div>
-      <div className="absolute bottom-10 -left-2 lg:-left-8 bg-[#0d0d0d] border border-white/[0.08] rounded-2xl px-5 py-3.5 shadow-xl">
+      <div style={{ position: 'absolute', bottom: '80px', left: '-160px', zIndex: 20 }}
+           className="bg-[#0d0d0d] border border-white/[0.08] rounded-2xl px-5 py-3.5 shadow-xl">
         <p className="text-[10px] text-white/25 font-semibold uppercase tracking-widest">Avg. arrival</p>
         <p className="text-2xl font-black text-[#00e5a0]">~25 min</p>
       </div>

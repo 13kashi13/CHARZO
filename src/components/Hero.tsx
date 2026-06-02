@@ -275,7 +275,7 @@ export const Hero: React.FC = () => {
             </div>
 
             {/* ── Right: App mockup ── */}
-            <div className="relative h-[720px] lg:h-[780px] flex items-center justify-center">
+            <div className="relative h-[720px] lg:h-[780px] flex items-center justify-center px-40" style={{ overflow: 'visible' }}>
               <PhoneMockup />
             </div>
           </div>
