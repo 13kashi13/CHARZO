@@ -37,7 +37,7 @@ def create_app() -> FastAPI:
     # 2. Trusted host
     allowed_hosts = ["charzo.in", "www.charzo.in", "charzo.vercel.app", "*.railway.app"]
     if not settings.is_production:
-        allowed_hosts += ["localhost", "127.0.0.1"]
+        allowed_hosts += ["localhost", "127.0.0.1", "test", "testclient"]
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=allowed_hosts)
 
     # 3. CORS — locked to frontend origin

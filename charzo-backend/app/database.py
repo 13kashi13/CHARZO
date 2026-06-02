@@ -6,13 +6,14 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.config import settings
 
-# Create async engine — asyncpg driver
+# Create async engine — asyncpg driver for PostgreSQL, aiosqlite for tests
+_is_sqlite = settings.database_url.startswith("sqlite")
+
 engine: AsyncEngine = create_async_engine(
     settings.database_url,
     echo=settings.environment == "development",
-    pool_pre_ping=True,
-    pool_size=10,
-    max_overflow=20,
+    pool_pre_ping=not _is_sqlite,
+    **({} if _is_sqlite else {"pool_size": 10, "max_overflow": 20}),
 )
 
 
