@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.database import get_db
@@ -19,10 +19,11 @@ async def register(data: RegisterRequest, db: AsyncSession = Depends(get_db)):
 
 
 @router.post("/login", response_model=TokenResponse)
-async def login(data: LoginRequest, db: AsyncSession = Depends(get_db)):
+async def login(data: LoginRequest, request: Request, db: AsyncSession = Depends(get_db)):
     """Login with email and password. Returns access + refresh tokens."""
+    ip = request.client.host if request.client else None
     service = AuthService(db)
-    return await service.login(data)
+    return await service.login(data, ip_address=ip)
 
 
 @router.post("/refresh", response_model=TokenResponse)
