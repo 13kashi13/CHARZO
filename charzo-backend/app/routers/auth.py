@@ -2,8 +2,10 @@ from fastapi import APIRouter, Depends
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from app.database import get_db
-from app.schemas.auth import RegisterRequest
+from app.dependencies import get_current_user
+from app.schemas.auth import LoginRequest, RefreshRequest, RegisterRequest, TokenResponse
 from app.schemas.user import UserResponse
+from app.services.auth_service import AuthService
 from app.services.user_service import UserService
 
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -11,8 +13,32 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 
 @router.post("/register", response_model=UserResponse, status_code=201)
 async def register(data: RegisterRequest, db: AsyncSession = Depends(get_db)):
-    """Register a new customer account. Returns 201 with user id and email."""
+    """Register a new customer account."""
     service = UserService(db)
     return await service.register_user(data)
 
-# Login, refresh, logout — implemented in Task 5
+
+@router.post("/login", response_model=TokenResponse)
+async def login(data: LoginRequest, db: AsyncSession = Depends(get_db)):
+    """Login with email and password. Returns access + refresh tokens."""
+    service = AuthService(db)
+    return await service.login(data)
+
+
+@router.post("/refresh", response_model=TokenResponse)
+async def refresh(data: RefreshRequest, db: AsyncSession = Depends(get_db)):
+    """Rotate refresh token. Old token is revoked, new pair issued."""
+    service = AuthService(db)
+    return await service.refresh(data.refresh_token)
+
+
+@router.post("/logout", status_code=200)
+async def logout(
+    data: RefreshRequest,
+    db: AsyncSession = Depends(get_db),
+    current_user=Depends(get_current_user),
+):
+    """Logout — revokes the provided refresh token."""
+    service = AuthService(db)
+    await service.logout(user_id=current_user.id, raw_token=data.refresh_token)
+    return {"message": "Logged out successfully"}
