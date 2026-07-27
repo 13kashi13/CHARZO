@@ -2,13 +2,40 @@ import React, { useState } from 'react';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import { GlowButton } from './GlowButton';
 
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzd8xxBw3S9YSffCTnWl9MH86cSgGQDYgdtWdMbYDmng-tDpzZ0Jq1F8u-OLcXmqZL1aQ/exec';
+
 export const Contact: React.FC = () => {
   const [form, setForm] = useState({ name: '', phone: '', vehicle: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    setError(null);
+
+    try {
+      // Send to Google Sheets
+      await fetch(SHEETS_URL, {
+        method: 'POST',
+        mode: 'no-cors', // required for Apps Script
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name,
+          phone: form.phone,
+          vehicle: form.vehicle,
+          location: form.message,
+        }),
+      });
+
+      setSubmitted(true);
+    } catch (err: any) {
+      console.error('Submission error:', err);
+      setError('Something went wrong. Please try again or call us directly.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -70,6 +97,11 @@ export const Contact: React.FC = () => {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
+                {error && (
+                  <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-xs">
+                    {error}
+                  </div>
+                )}
                 <div>
                   <label className="block text-[10px] font-bold text-white/25 uppercase tracking-widest mb-2">Your Name</label>
                   <input
@@ -95,6 +127,7 @@ export const Contact: React.FC = () => {
                 <div>
                   <label className="block text-[10px] font-bold text-white/25 uppercase tracking-widest mb-2">Your EV</label>
                   <select
+                    required
                     value={form.vehicle}
                     onChange={e => setForm({ ...form, vehicle: e.target.value })}
                     className="w-full h-11 px-4 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm focus:outline-none focus:border-[#00e5a0]/50 transition-colors"
@@ -115,11 +148,17 @@ export const Contact: React.FC = () => {
                     className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#00e5a0]/50 transition-colors resize-none"
                   />
                 </div>
-                <GlowButton type="submit" fullWidth height={48} fontSize={14}>
-                  <svg width="14" height="14" viewBox="0 0 22 22" fill="none">
-                    <path d="M13 2L4 13h7l-2 7 9-11h-7l2-7z" fill="white"/>
-                  </svg>
-                  Request Charging · Arrives in ~25 min
+                <GlowButton type="submit" fullWidth height={48} fontSize={14} disabled={loading}>
+                  {loading ? (
+                    <>Processing...</>
+                  ) : (
+                    <>
+                      <svg width="14" height="14" viewBox="0 0 22 22" fill="none">
+                        <path d="M13 2L4 13h7l-2 7 9-11h-7l2-7z" fill="white"/>
+                      </svg>
+                      Request Charging · Arrives in ~25 min
+                    </>
+                  )}
                 </GlowButton>
               </form>
             )}
