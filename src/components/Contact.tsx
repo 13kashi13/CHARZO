@@ -5,7 +5,7 @@ import { GlowButton } from './GlowButton';
 const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzd8xxBw3S9YSffCTnWl9MH86cSgGQDYgdtWdMbYDmng-tDpzZ0Jq1F8u-OLcXmqZL1aQ/exec';
 
 export const Contact: React.FC = () => {
-  const [form, setForm] = useState({ name: '', phone: '', vehicle: '', message: '' });
+  const [form, setForm] = useState({ name: '', email: '', phone: '', vehicle: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -16,13 +16,13 @@ export const Contact: React.FC = () => {
     setError(null);
 
     try {
-      // Send to Google Sheets
       await fetch(SHEETS_URL, {
         method: 'POST',
-        mode: 'no-cors', // required for Apps Script
+        mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: form.name,
+          email: form.email,
           phone: form.phone,
           vehicle: form.vehicle,
           location: form.message,
@@ -110,6 +110,17 @@ export const Contact: React.FC = () => {
                     placeholder="Name"
                     value={form.name}
                     onChange={e => setForm({ ...form, name: e.target.value })}
+                    className="w-full h-11 px-4 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#00e5a0]/50 transition-colors"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-white/25 uppercase tracking-widest mb-2">Email</label>
+                  <input
+                    type="email"
+                    required
+                    placeholder="your@email.com"
+                    value={form.email}
+                    onChange={e => setForm({ ...form, email: e.target.value })}
                     className="w-full h-11 px-4 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#00e5a0]/50 transition-colors"
                   />
                 </div>
