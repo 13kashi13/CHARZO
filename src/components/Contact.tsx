@@ -32,23 +32,27 @@ function validate(form: FormState): FormErrors {
     errors.name = 'Name can only contain letters.';
   }
 
-  // Email: required, valid format
+  // Email: must end with @gmail.com, @yahoo.com, @outlook.com etc — no typos like @gmmail
+  const validDomains = ['gmail.com', 'yahoo.com', 'outlook.com', 'hotmail.com', 'icloud.com', 'rediffmail.com'];
   if (!form.email.trim()) {
     errors.email = 'Email is required.';
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email.trim())) {
     errors.email = 'Enter a valid email address.';
+  } else {
+    const domain = form.email.trim().toLowerCase().split('@')[1];
+    if (!validDomains.includes(domain)) {
+      errors.email = `Use a valid email provider (e.g. @gmail.com, @yahoo.com).`;
+    }
   }
 
-  // Phone: required, exactly 10 digits (Indian mobile)
+  // Phone: exactly 10 digits, starts with 6-9, no spaces allowed
   const digits = form.phone.replace(/\D/g, '');
   if (!form.phone.trim()) {
     errors.phone = 'Phone number is required.';
-  } else if (digits.length < 10) {
-    errors.phone = 'Phone number must be at least 10 digits.';
-  } else if (digits.length > 13) {
-    errors.phone = 'Phone number is too long.';
-  } else if (digits.length === 10 && !/^[6-9]/.test(digits)) {
-    errors.phone = 'Enter a valid Indian mobile number.';
+  } else if (digits.length !== 10) {
+    errors.phone = `Phone must be exactly 10 digits (you entered ${digits.length}).`;
+  } else if (!/^[6-9]/.test(digits)) {
+    errors.phone = 'Enter a valid Indian mobile number starting with 6, 7, 8, or 9.';
   }
 
   // Vehicle: required
@@ -244,9 +248,9 @@ export const Contact: React.FC = () => {
                   <input
                     type="tel"
                     placeholder="e.g. 9876543210"
-                    maxLength={13}
+                    maxLength={10}
                     value={form.phone}
-                    onChange={e => handleChange('phone', e.target.value.replace(/[^\d+\s-]/g, ''))}
+                    onChange={e => handleChange('phone', e.target.value.replace(/\D/g, '').slice(0, 10))}
                     onBlur={() => handleBlur('phone')}
                     className={inputCls('phone')}
                   />
