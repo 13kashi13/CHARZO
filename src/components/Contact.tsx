@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import { GlowButton } from './GlowButton';
 
-const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzd8xxBw3S9YSffCTnWl9MH86cSgGQDYgdtWdMbYDmng-tDpzZ0Jq1F8u-OLcXmqZL1aQ/exec';
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzYBKI4MYnFA3JW33757ku-jLoGna4zkBvFYcDA0Fc2oZcLWpN3Xx6KIMT_-w9EUbjEjg/exec';
 
 export const Contact: React.FC = () => {
   const [form, setForm] = useState({ name: '', email: '', phone: '', vehicle: '', message: '' });
